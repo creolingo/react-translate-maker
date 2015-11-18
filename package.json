@@ -1,0 +1,37 @@
+{
+  "name": "react-translate-maker",
+  "version": "0.0.1",
+  "description": "React Components for internationalization. The official API for the www.translatemaker.com",
+  "main": "dist/index.js",
+  "keywords": [
+    "translate",
+    "locale",
+    "project",
+    "module",
+    "i18n",
+    "i10n",
+    "l20n",
+    "react",
+    "react.js",
+    "internationalization"
+  ],
+  "files": [
+    "dist/",
+    "package.json",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/TranslateMaker/react-translate-maker.git"
+  },
+  "author": "Zlatko Fedor <zlatkofedor@cherrysro.com>",
+  "license": "APACHE-2.0",
+  "bugs": {
+    "url": "https://github.com/TranslateMaker/react-translate-maker/issues"
+  },
+  "homepage": "https://github.com/TranslateMaker/react-translate-maker",
+  "devDependencies": {},
+  "dependencies": {}
+}
