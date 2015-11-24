@@ -1,0 +1,17 @@
+language: node_js
+node_js:
+    - "0.10"
+    - "0.12"
+    - iojs
+    - "4"
+    - "5"
+script: npm test
+notifications:
+    email:
+        recipients:
+            - zlatkofedor@cherrysro.com
+        on_success: change
+        on_failure: always
+
+after_script:
+ - ./node_modules/.bin/babel-node ./node_modules/.bin/gulp coveralls
