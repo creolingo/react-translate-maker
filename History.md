@@ -1,5 +1,11 @@
-0.1.16 / 2015-11-23
+0.0.3 / 2015-11-23
 ==================
 
- * added History log
- * bump eslint
+ * added travis and cover
+ * added components Provider and Translate
+
+
+0.0.2 / 2015-11-23
+==================
+
+ * first working version

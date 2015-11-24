@@ -19,9 +19,11 @@ export default class Provider extends Component {
   constructor(props, context) {
     super(props, context);
 
-    this._translate = new Translate();
+    this.state = this._prepareLocale(props);
+  }
 
-    this._prepareLocale(props);
+  componentWillReceiveProps(newProps) {
+    this.setState(this._prepareLocale(newProps));
   }
 
   _prepareLocale(props) {
@@ -29,7 +31,10 @@ export default class Provider extends Component {
 
     const messages = locales[locale];
     if (messages) {
-      return this._translate.set(messages);
+      const translate = new Translate();
+      translate.set(messages);
+
+      return { translate };
     }
 
     if (!onLoadLocale) {
@@ -37,15 +42,22 @@ export default class Provider extends Component {
     }
 
     onLoadLocale(locale);
+
+    return {};
   }
 
-  getTranslate() {
-    return this._translate;
+  get(path, attrs) {
+    const { translate } = this.state;
+    if (!translate) {
+      return void 0;
+    }
+
+    return translate.get(path, attrs);
   }
 
   getChildContext() {
     return {
-      translate: this._translate,
+      translate: this,
     };
   }
 

@@ -50,12 +50,15 @@ var Provider = (function (_Component) {
 
     _get(Object.getPrototypeOf(Provider.prototype), 'constructor', this).call(this, props, context);
 
-    this._translate = new _translateMaker2['default']();
-
-    this._prepareLocale(props);
+    this.state = this._prepareLocale(props);
   }
 
   _createClass(Provider, [{
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(newProps) {
+      this.setState(this._prepareLocale(newProps));
+    }
+  }, {
     key: '_prepareLocale',
     value: function _prepareLocale(props) {
       var locale = props.locale;
@@ -64,7 +67,10 @@ var Provider = (function (_Component) {
 
       var messages = locales[locale];
       if (messages) {
-        return this._translate.set(messages);
+        var translate = new _translateMaker2['default']();
+        translate.set(messages);
+
+        return { translate: translate };
       }
 
       if (!onLoadLocale) {
@@ -72,17 +78,25 @@ var Provider = (function (_Component) {
       }
 
       onLoadLocale(locale);
+
+      return {};
     }
   }, {
-    key: 'getTranslate',
-    value: function getTranslate() {
-      return this._translate;
+    key: 'get',
+    value: function get(path, attrs) {
+      var translate = this.state.translate;
+
+      if (!translate) {
+        return void 0;
+      }
+
+      return translate.get(path, attrs);
     }
   }, {
     key: 'getChildContext',
     value: function getChildContext() {
       return {
-        translate: this._translate
+        translate: this
       };
     }
   }, {
