@@ -34,6 +34,7 @@ npm install translate-maker
 - Filters capitalize, upperCase, lowerCase etc... and custom filters
 - Default translations
 - Integrates with [React](https://github.com/CherrySoftware/react-translate-maker) and [Angular](https://github.com/CherrySoftware/angular-translate-maker)
+- For more details and examples click on [translate-maker](https://github.com/CherrySoftware/translate-maker)
 
 # Usage
 
@@ -71,7 +72,7 @@ React.render(
 The result will be
 
 
-```js
+```html
 <h1>Hello Zlatko</h1>
 <span>Zlatko has 15 followers</span>
 ```
@@ -111,7 +112,7 @@ React.render(
 The result will be
 
 
-```js
+```html
 <span>Boy Zlatko is working with girl Livia</span>
 ```
 
@@ -145,7 +146,7 @@ React.render(
 The result will be
 
 
-```js
+```html
 <span class="my-class-name">Welcome back</span>
 ```
 
@@ -179,7 +180,7 @@ React.render(
 The result will be
 
 
-```js
+```html
 <span>Welcome back <b>Zlatko</b>. How is it going?</span>
 ```
 
