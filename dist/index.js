@@ -6,9 +6,9 @@ Object.defineProperty(exports, '__esModule', {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-var _Provider = require('./Provider');
+var _LocaleProvider = require('./LocaleProvider');
 
-var _Provider2 = _interopRequireDefault(_Provider);
+var _LocaleProvider2 = _interopRequireDefault(_LocaleProvider);
 
 var _Translate = require('./Translate');
 
@@ -20,7 +20,7 @@ var _TranslateHTML2 = _interopRequireDefault(_TranslateHTML);
 
 var _translateMaker = require('translate-maker');
 
-exports.LocaleProvider = _Provider2['default'];
+exports.LocaleProvider = _LocaleProvider2['default'];
 exports.TranslateHTML = _TranslateHTML2['default'];
 exports.Plural = _translateMaker.Plural;
 exports.Gender = _translateMaker.Gender;

@@ -33,11 +33,11 @@ gulp.task('test', ['pre-test'], () => {
         global: 90,
       },
     }));
- });
+});
 
 gulp.task('coveralls', ['test'], () => {
   if (!process.env.CI) {
-    return;
+    return void 0;
   }
 
   return gulp.src(path.join(__dirname, 'coverage/lcov.info'))

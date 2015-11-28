@@ -1,9 +1,9 @@
 import React, { Component, PropTypes } from 'react';
-import Provider from './Provider';
+import LocaleProvider from './LocaleProvider';
 
 export default class TranslateHTML extends Component {
   static contextTypes = {
-    ...Provider.childContextTypes,
+    ...LocaleProvider.childContextTypes,
   };
 
   static propTypes = {

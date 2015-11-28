@@ -107,4 +107,25 @@ describe('Translate', () => {
 
     result.should.equal('<span>Welcome back <b>Zlatko</b>. How is it going?</span>');
   });
+
+  it('should be able to use filters', () => {
+    const result = render(ProviderFactory({
+      locale: 'sk',
+      locales: {
+        sk: {
+          hello: 'Hello {$name | star}',
+        },
+      },
+      filters: {
+        star: (value) => {
+          return '*** ' + value + ' ***';
+        },
+      },
+    }, TranslateFactory({
+      path: 'hello',
+      name: 'Zlatko',
+    })));
+
+    result.should.equal('<span>Hello *** Zlatko ***</span>');
+  });
 });

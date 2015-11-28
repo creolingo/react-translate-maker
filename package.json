@@ -1,7 +1,7 @@
 {
   "name": "react-translate-maker",
-  "version": "0.0.6",
-  "description": "Universal React Components for internationalization",
+  "version": "0.0.7",
+  "description": "Universal translation library for React",
   "main": "dist/index.js",
   "keywords": [
     "translate",
@@ -46,7 +46,7 @@
   },
   "homepage": "https://github.com/CherrySoftware/react-translate-maker",
   "dependencies": {
-    "translate-maker": "^0.2.12"
+    "translate-maker": "^0.2.15"
   },
   "devDependencies": {
     "babel": "^5.8.34",

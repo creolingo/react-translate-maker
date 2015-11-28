@@ -20,9 +20,9 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _Provider = require('./Provider');
+var _LocaleProvider = require('./LocaleProvider');
 
-var _Provider2 = _interopRequireDefault(_Provider);
+var _LocaleProvider2 = _interopRequireDefault(_LocaleProvider);
 
 var Translate = (function (_Component) {
   _inherits(Translate, _Component);
@@ -50,7 +50,7 @@ var Translate = (function (_Component) {
     }
   }], [{
     key: 'contextTypes',
-    value: _extends({}, _Provider2['default'].childContextTypes),
+    value: _extends({}, _LocaleProvider2['default'].childContextTypes),
     enumerable: true
   }, {
     key: 'propTypes',

@@ -1,11 +1,12 @@
 import { Component, PropTypes, Children } from 'react';
 import Translate from 'translate-maker';
 
-export default class Provider extends Component {
+export default class LocaleProvider extends Component {
   static propTypes = {
     locale: PropTypes.string.isRequired,
     locales: PropTypes.object.isRequired,
     onLoadLocale: PropTypes.func,
+    filters: PropTypes.object,
   };
 
   static childContextTypes = {
@@ -27,12 +28,16 @@ export default class Provider extends Component {
   }
 
   _prepareLocale(props) {
-    const { locale, locales, onLoadLocale } = props;
+    const { locale, locales, onLoadLocale, filters } = props;
 
     const messages = locales[locale];
     if (messages) {
       const translate = new Translate();
       translate.set(messages);
+
+      if (filters) {
+        translate.setFilter(filters);
+      }
 
       return { translate };
     }

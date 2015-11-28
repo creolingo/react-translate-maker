@@ -7,7 +7,7 @@ Universal translation library for React. This library is part of [translate-make
 [![Test coverage][coveralls-image]][coveralls-url]
 
 [npm-image]: https://img.shields.io/npm/v/react-translate-maker.svg?style=flat-square
-[npm-url]: https://www.npmjs.com/CherrySoftware/react-translate-maker
+[npm-url]: https://www.npmjs.com/react-translate-maker
 [travis-image]: https://img.shields.io/travis/CherrySoftware/react-translate-maker/master.svg?style=flat-square
 [travis-url]: https://travis-ci.org/CherrySoftware/react-translate-maker
 [coveralls-image]: https://img.shields.io/coveralls/CherrySoftware/react-translate-maker/master.svg?style=flat-square
@@ -183,6 +183,47 @@ The result will be
 ```html
 <span>Welcome back <b>Zlatko</b>. How is it going?</span>
 ```
+
+### Filters
+
+Sometimes you need to provide HTML content.
+
+```js
+import React from 'react';
+import Translate, { LocaleProvider } from 'react-translate-maker';
+
+const currentLocale = 'en';
+const locales = {
+  en: {
+    welcome: 'Welcome {$user.name | star}',
+  }
+};
+
+const filters = {
+  star: function star(value) {
+    return '*** ' + value + ' ***';
+  }
+};
+
+const user = {
+  name: 'Zlatko'
+};
+
+React.render(
+  <LocaleProvider locales={locales} locale={currentLocale} filters={filters}>
+    <Translate path="welcome" user={user} />
+  </LocaleProvider>
+);
+```
+
+
+The result will be
+
+
+```html
+<span>Welcome *** Zlatko ***</span>
+```
+
 
 ### More examples
 

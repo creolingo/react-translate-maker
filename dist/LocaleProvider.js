@@ -20,15 +20,16 @@ var _translateMaker = require('translate-maker');
 
 var _translateMaker2 = _interopRequireDefault(_translateMaker);
 
-var Provider = (function (_Component) {
-  _inherits(Provider, _Component);
+var LocaleProvider = (function (_Component) {
+  _inherits(LocaleProvider, _Component);
 
-  _createClass(Provider, null, [{
+  _createClass(LocaleProvider, null, [{
     key: 'propTypes',
     value: {
       locale: _react.PropTypes.string.isRequired,
       locales: _react.PropTypes.object.isRequired,
-      onLoadLocale: _react.PropTypes.func
+      onLoadLocale: _react.PropTypes.func,
+      filters: _react.PropTypes.object
     },
     enumerable: true
   }, {
@@ -45,15 +46,15 @@ var Provider = (function (_Component) {
     enumerable: true
   }]);
 
-  function Provider(props, context) {
-    _classCallCheck(this, Provider);
+  function LocaleProvider(props, context) {
+    _classCallCheck(this, LocaleProvider);
 
-    _get(Object.getPrototypeOf(Provider.prototype), 'constructor', this).call(this, props, context);
+    _get(Object.getPrototypeOf(LocaleProvider.prototype), 'constructor', this).call(this, props, context);
 
     this.state = this._prepareLocale(props);
   }
 
-  _createClass(Provider, [{
+  _createClass(LocaleProvider, [{
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(newProps) {
       this.setState(this._prepareLocale(newProps));
@@ -64,11 +65,16 @@ var Provider = (function (_Component) {
       var locale = props.locale;
       var locales = props.locales;
       var onLoadLocale = props.onLoadLocale;
+      var filters = props.filters;
 
       var messages = locales[locale];
       if (messages) {
         var translate = new _translateMaker2['default']();
         translate.set(messages);
+
+        if (filters) {
+          translate.setFilter(filters);
+        }
 
         return { translate: translate };
       }
@@ -106,8 +112,8 @@ var Provider = (function (_Component) {
     }
   }]);
 
-  return Provider;
+  return LocaleProvider;
 })(_react.Component);
 
-exports['default'] = Provider;
+exports['default'] = LocaleProvider;
 module.exports = exports['default'];
