@@ -1,11 +1,4 @@
-0.0.3 / 2015-11-23
-==================
+# Change/History Log
 
- * added travis and cover
- * added components Provider and Translate
-
-
-0.0.2 / 2015-11-23
-==================
-
- * first working version
+This project adheres to [Semantic Versioning](http://semver.org/).
+Every release, along with the migration instructions, is documented on the Github [Releases](https://github.com/CherrySoftware/react-translate-maker/releases) page.

@@ -1,9 +1,9 @@
 import should from 'should';
-import Translate, { Provider } from '../dist';
+import Translate, { LocaleProvider } from '../dist';
 import React from 'react';
 import { renderToStaticMarkup as render } from 'react-dom/server';
 
-const ProviderFactory = React.createFactory(Provider);
+const ProviderFactory = React.createFactory(LocaleProvider);
 const TranslateFactory = React.createFactory(Translate);
 
 describe('Translate', () => {
@@ -70,5 +70,24 @@ describe('Translate', () => {
     })));
 
     result.should.equal('<span>Hello Zlatko</span>');
+  });
+
+  it('should be able to use props for custom element', () => {
+    const result = render(ProviderFactory({
+      locale: 'sk',
+      locales: {
+        sk: {
+          hello: 'Hello {$className}',
+        },
+      },
+    }, TranslateFactory({
+      path: 'hello',
+      className: 'Zlatko',
+      props: {
+        className: 'testik'
+      }
+    })));
+
+    result.should.equal('<span class="testik">Hello Zlatko</span>');
   });
 });

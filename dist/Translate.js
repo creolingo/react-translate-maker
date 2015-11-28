@@ -40,15 +40,13 @@ var Translate = (function (_Component) {
       var path = _props.path;
       var tagName = _props.tagName;
       var params = _props.params;
+      var _props$props = _props.props;
+      var props = _props$props === undefined ? {} : _props$props;
 
       var translate = this.context.translate;
       var text = translate.get(path, params || this.props);
 
-      var elementProps = {
-        className: this.props.className
-      };
-
-      return _react2['default'].createElement(tagName, elementProps, text);
+      return _react2['default'].createElement(tagName, props, text);
     }
   }], [{
     key: 'contextTypes',
@@ -60,7 +58,8 @@ var Translate = (function (_Component) {
       path: _react.PropTypes.string.isRequired,
       tagName: _react.PropTypes.string.isRequired,
       className: _react.PropTypes.string,
-      params: _react.PropTypes.object
+      params: _react.PropTypes.object,
+      props: _react.PropTypes.object
     },
     enumerable: true
   }, {

@@ -1,5 +1,6 @@
-import Provider from './Provider';
+import LocaleProvider from './Provider';
 import Translate from './Translate';
+import { Plural, Gender } from 'translate-maker';
 
-export { Provider };
+export { LocaleProvider, Plural, Gender };
 export default Translate;
