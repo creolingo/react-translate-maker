@@ -149,6 +149,40 @@ The result will be
 <span class="my-class-name">Welcome back</span>
 ```
 
+### HTML content
+
+Sometimes you need to provide HTML content.
+
+```js
+import React from 'react';
+import { LocaleProvider, TranslateHTML } from 'react-translate-maker';
+
+const currentLocale = 'en';
+const locales = {
+  en: {
+    welcome: 'Welcome back <b>{$user.name}</b>. How is it going?',
+  }
+};
+
+const user = {
+  name: 'Zlatko'
+};
+
+React.render(
+  <LocaleProvider locales={locales} locale={currentLocale}>
+    <TranslateHTML path="welcome" user={user} />
+  </LocaleProvider>
+);
+```
+
+
+The result will be
+
+
+```js
+<span>Welcome back <b>Zlatko</b>. How is it going?</span>
+```
+
 ### More examples
 
 Please take a look on [translate-maker](https://github.com/CherrySoftware/translate-maker)

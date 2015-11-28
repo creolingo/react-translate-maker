@@ -20,6 +20,7 @@ export default class Translate extends Component {
 
   render() {
     const { path, tagName, params, props = {} } = this.props;
+
     const translate = this.context.translate;
     const text = translate.get(path, params || this.props);
 
