@@ -11,7 +11,7 @@ const babelConfig = {
 };
 
 gulp.task('pre-test', () => {
-  return gulp.src(['src/**/*.js'])
+  return gulp.src(['dist/**/*{.js,.jsx}'])
     .pipe(istanbul({
       dir: './coverage',
       instrumenter: Instrumenter,
