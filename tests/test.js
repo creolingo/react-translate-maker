@@ -139,7 +139,7 @@ describe('Translate', () => {
         },
       },
     }, NamespaceFactory({
-      namespace: 'namespace',
+      path: 'namespace',
     }, TranslateFactory({
       path: 'test',
     }))));
@@ -160,9 +160,9 @@ describe('Translate', () => {
         },
       },
     }, NamespaceFactory({
-      namespace: 'namespace1',
+      path: 'namespace1',
     }, NamespaceFactory({
-      namespace: 'namespace2',
+      path: 'namespace2',
     }, TranslateFactory({
       path: 'test',
     })))));
@@ -181,9 +181,9 @@ describe('Translate', () => {
         },
       },
     }, NamespaceFactory({
-      namespace: 'namespace1',
+      path: 'namespace1',
     }, NamespaceFactory({
-      namespace: 'namespace',
+      path: 'namespace',
       replace: true,
     }, TranslateFactory({
       path: 'test',

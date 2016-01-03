@@ -2,7 +2,7 @@ import { Component, PropTypes, Children } from 'react';
 
 export default class LocaleProvider extends Component {
   static propTypes = {
-    namespace: PropTypes.string,
+    path: PropTypes.string,
     replace: PropTypes.bool,
   };
 
@@ -14,20 +14,20 @@ export default class LocaleProvider extends Component {
     namespace: PropTypes.object,
   };
 
-  getNamespace() {
-    const { namespace, replace } = this.props;
-    if (replace || !namespace) {
-      return namespace;
+  getPath() {
+    const { path, replace } = this.props;
+    if (replace || !path) {
+      return path;
     }
 
     if (this.context.namespace) {
-      const parentNamespace = this.context.namespace.getNamespace();
-      if (parentNamespace) {
-        return `${parentNamespace}.${namespace}`;
+      const parentPath = this.context.namespace.getPath();
+      if (parentPath) {
+        return `${parentPath}.${path}`;
       }
     }
 
-    return namespace;
+    return path;
   }
 
   getChildContext() {

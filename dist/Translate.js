@@ -43,12 +43,12 @@ var Translate = (function (_Component) {
         return path;
       }
 
-      var namespaceValue = namespace.getNamespace();
-      if (!namespaceValue) {
+      var parentPath = namespace.getPath();
+      if (!parentPath) {
         return path;
       }
 
-      return namespaceValue + '.' + path;
+      return parentPath + '.' + path;
     }
   }, {
     key: 'render',

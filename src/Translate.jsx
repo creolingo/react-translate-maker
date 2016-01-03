@@ -26,12 +26,12 @@ export default class Translate extends Component {
       return path;
     }
 
-    const namespaceValue = namespace.getNamespace();
-    if (!namespaceValue) {
+    const parentPath = namespace.getPath();
+    if (!parentPath) {
       return path;
     }
 
-    return `${namespaceValue}.${path}`;
+    return `${parentPath}.${path}`;
   }
 
   render() {
