@@ -1,6 +1,7 @@
 # react-translate-maker
 
 Universal translation library for React. This library is part of [translate-maker](https://github.com/CherrySoftware/translate-maker).
+Star this project on [GitHub][github-url].
 
 [![NPM version][npm-image]][npm-url]
 [![build status][travis-image]][travis-url]
@@ -12,6 +13,7 @@ Universal translation library for React. This library is part of [translate-make
 [travis-url]: https://travis-ci.org/CherrySoftware/react-translate-maker
 [coveralls-image]: https://img.shields.io/coveralls/CherrySoftware/react-translate-maker/master.svg?style=flat-square
 [coveralls-url]: https://coveralls.io/r/CherrySoftware/react-translate-maker?branch=master
+[github-url]: https://github.com/CherrySoftware/react-translate-maker
 
 
 # Installation
@@ -35,6 +37,10 @@ npm install translate-maker
 - Default translations
 - Integrates with [React](https://github.com/CherrySoftware/react-translate-maker) and [Angular](https://github.com/CherrySoftware/angular-translate-maker)
 - For more details and examples click on [translate-maker](https://github.com/CherrySoftware/translate-maker)
+
+# Support us
+
+Star this project on [GitHub][github-url].
 
 # Usage
 
@@ -223,7 +229,6 @@ The result will be
 ```html
 <span>Welcome *** Zlatko ***</span>
 ```
-
 
 ### More examples
 

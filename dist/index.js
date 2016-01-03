@@ -24,4 +24,7 @@ exports.LocaleProvider = _LocaleProvider2['default'];
 exports.TranslateHTML = _TranslateHTML2['default'];
 exports.Plural = _translateMaker.Plural;
 exports.Gender = _translateMaker.Gender;
+exports.Mode = _translateMaker.Mode;
+exports.Adapters = _translateMaker.Adapters;
+exports.Caches = _translateMaker.Caches;
 exports['default'] = _Translate2['default'];

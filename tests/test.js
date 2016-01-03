@@ -1,5 +1,5 @@
 import should from 'should';
-import Translate, { LocaleProvider, TranslateHTML } from '../dist';
+import Translate, { LocaleProvider, TranslateHTML, Memory } from '../dist';
 import React from 'react';
 import { renderToStaticMarkup as render } from 'react-dom/server';
 
@@ -11,7 +11,7 @@ describe('Translate', () => {
   it('should be able to create simple instance', () => {
     const result = render(ProviderFactory({
       locale: 'sk',
-      locales: {
+      adapter: {
         sk: {
           test: 'Test response',
         },
@@ -26,7 +26,7 @@ describe('Translate', () => {
   it('should be able to create element h1', () => {
     const result = render(ProviderFactory({
       locale: 'sk',
-      locales: {
+      adapter: {
         sk: {
           test: 'Test response',
         },
@@ -42,7 +42,7 @@ describe('Translate', () => {
   it('should be able to use variable inside translation', () => {
     const result = render(ProviderFactory({
       locale: 'sk',
-      locales: {
+      adapter: {
         sk: {
           hello: 'Hello {$name}',
         },
@@ -58,7 +58,7 @@ describe('Translate', () => {
   it('should be able to use params instead of props', () => {
     const result = render(ProviderFactory({
       locale: 'sk',
-      locales: {
+      adapter: {
         sk: {
           hello: 'Hello {$name}',
         },
@@ -76,7 +76,7 @@ describe('Translate', () => {
   it('should be able to use props for custom element', () => {
     const result = render(ProviderFactory({
       locale: 'sk',
-      locales: {
+      adapter: {
         sk: {
           hello: 'Hello {$className}',
         },
@@ -95,7 +95,7 @@ describe('Translate', () => {
   it('should be able to use html content', () => {
     const result = render(ProviderFactory({
       locale: 'sk',
-      locales: {
+      adapter: {
         sk: {
           hello: 'Welcome back <b>{$name}</b>. How is it going?',
         },
@@ -111,15 +111,13 @@ describe('Translate', () => {
   it('should be able to use filters', () => {
     const result = render(ProviderFactory({
       locale: 'sk',
-      locales: {
+      adapter: {
         sk: {
           hello: 'Hello {$name | star}',
         },
       },
       filters: {
-        star: (value) => {
-          return '*** ' + value + ' ***';
-        },
+        star: (value) => '*** ' + value + ' ***',
       },
     }, TranslateFactory({
       path: 'hello',

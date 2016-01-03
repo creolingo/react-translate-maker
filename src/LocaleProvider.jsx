@@ -3,9 +3,18 @@ import Translate from 'translate-maker';
 
 export default class LocaleProvider extends Component {
   static propTypes = {
-    locale: PropTypes.string.isRequired,
-    locales: PropTypes.object.isRequired,
-    onLoadLocale: PropTypes.func,
+    locale: PropTypes.string,
+    locales: PropTypes.array,
+    namespace: PropTypes.string,
+    fallbacks: PropTypes.object,
+    cache: PropTypes.object,
+    adapter: PropTypes.object,
+    defaultAdapter: PropTypes.object,
+    dotNotation: PropTypes.bool,
+    mode: PropTypes.string,
+    references: PropTypes.bool,
+    variables: PropTypes.bool,
+    combinations: PropTypes.bool,
     filters: PropTypes.object,
   };
 
@@ -13,51 +22,26 @@ export default class LocaleProvider extends Component {
     translate: PropTypes.object.isRequired,
   };
 
-  static defaultProps = {
-    locale: 'en',
-  };
-
   constructor(props, context) {
     super(props, context);
 
-    this.state = this._prepareLocale(props);
+    this.state = {
+      translate: new Translate(props),
+    };
   }
 
   componentWillReceiveProps(newProps) {
-    this.setState(this._prepareLocale(newProps));
-  }
-
-  _prepareLocale(props) {
-    const { locale, locales, onLoadLocale, filters } = props;
-
-    const messages = locales[locale];
-    if (messages) {
-      const translate = new Translate();
-      translate.set(messages);
-
-      if (filters) {
-        translate.setFilter(filters);
-      }
-
-      return { translate };
-    }
-
-    if (!onLoadLocale) {
-      throw new Error('Locale is not defined. For async load use onLoadLocale');
-    }
-
-    onLoadLocale(locale);
-
-    return {};
+    this.state.translate.setLocale(newProps.locale);
   }
 
   get(path, attrs) {
     const { translate } = this.state;
-    if (!translate) {
-      return void 0;
-    }
-
     return translate.get(path, attrs);
+  }
+
+  set(path, value) {
+    const { translate } = this.state;
+    return translate.set(path, value);
   }
 
   getChildContext() {

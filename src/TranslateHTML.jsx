@@ -29,7 +29,7 @@ export default class TranslateHTML extends Component {
       ...props,
       dangerouslySetInnerHTML: {
         __html: text,
-      }
+      },
     };
 
     return React.createElement(tagName, elementProps, children);
