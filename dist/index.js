@@ -14,6 +14,10 @@ var _Translate = require('./Translate');
 
 var _Translate2 = _interopRequireDefault(_Translate);
 
+var _Namespace = require('./Namespace');
+
+var _Namespace2 = _interopRequireDefault(_Namespace);
+
 var _TranslateHTML = require('./TranslateHTML');
 
 var _TranslateHTML2 = _interopRequireDefault(_TranslateHTML);
@@ -22,6 +26,7 @@ var _translateMaker = require('translate-maker');
 
 exports.LocaleProvider = _LocaleProvider2['default'];
 exports.TranslateHTML = _TranslateHTML2['default'];
+exports.Namespace = _Namespace2['default'];
 exports.Plural = _translateMaker.Plural;
 exports.Gender = _translateMaker.Gender;
 exports.Mode = _translateMaker.Mode;

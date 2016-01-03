@@ -7,6 +7,10 @@ export default class LocaleProvider extends Component {
   };
 
   static childContextTypes = {
+    namespace: PropTypes.object.isRequired,
+  };
+
+  static contextTypes = {
     namespace: PropTypes.object,
   };
 

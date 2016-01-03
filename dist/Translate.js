@@ -34,23 +34,47 @@ var Translate = (function (_Component) {
   }
 
   _createClass(Translate, [{
+    key: 'getPath',
+    value: function getPath() {
+      var path = this.props.path;
+      var namespace = this.context.namespace;
+
+      if (!namespace) {
+        return path;
+      }
+
+      var namespaceValue = namespace.getNamespace();
+      if (!namespaceValue) {
+        return path;
+      }
+
+      return namespaceValue + '.' + path;
+    }
+  }, {
     key: 'render',
     value: function render() {
       var _props = this.props;
-      var path = _props.path;
       var tagName = _props.tagName;
       var params = _props.params;
       var _props$props = _props.props;
       var props = _props$props === undefined ? {} : _props$props;
 
+      var path = this.getPath();
+
       var translate = this.context.translate;
       var text = translate.get(path, params || this.props);
+
+      if (typeof tagName !== 'string') {
+        return tagName(props, text);
+      }
 
       return _react2['default'].createElement(tagName, props, text);
     }
   }], [{
     key: 'contextTypes',
-    value: _extends({}, _LocaleProvider2['default'].childContextTypes),
+    value: _extends({}, _LocaleProvider2['default'].childContextTypes, {
+      namespace: _react.PropTypes.object
+    }),
     enumerable: true
   }, {
     key: 'propTypes',

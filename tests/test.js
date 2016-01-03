@@ -1,11 +1,12 @@
 import should from 'should';
-import Translate, { LocaleProvider, TranslateHTML, Memory } from '../dist';
+import Translate, { LocaleProvider, TranslateHTML, Memory, Namespace } from '../dist';
 import React from 'react';
 import { renderToStaticMarkup as render } from 'react-dom/server';
 
 const ProviderFactory = React.createFactory(LocaleProvider);
 const TranslateFactory = React.createFactory(Translate);
 const TranslateHTMLFactory = React.createFactory(TranslateHTML);
+const NamespaceFactory = React.createFactory(Namespace);
 
 describe('Translate', () => {
   it('should be able to create simple instance', () => {
@@ -125,5 +126,69 @@ describe('Translate', () => {
     })));
 
     result.should.equal('<span>Hello *** Zlatko ***</span>');
+  });
+
+  it('should be able to use namespace', () => {
+    const result = render(ProviderFactory({
+      locale: 'sk',
+      adapter: {
+        sk: {
+          namespace: {
+            test: 'Test response',
+          },
+        },
+      },
+    }, NamespaceFactory({
+      namespace: 'namespace',
+    }, TranslateFactory({
+      path: 'test',
+    }))));
+
+    result.should.equal('<span>Test response</span>');
+  });
+
+  it('should be able to use namespace inside namespace', () => {
+    const result = render(ProviderFactory({
+      locale: 'sk',
+      adapter: {
+        sk: {
+          namespace1: {
+            namespace2: {
+              test: 'Test response',
+            },
+          },
+        },
+      },
+    }, NamespaceFactory({
+      namespace: 'namespace1',
+    }, NamespaceFactory({
+      namespace: 'namespace2',
+    }, TranslateFactory({
+      path: 'test',
+    })))));
+
+    result.should.equal('<span>Test response</span>');
+  });
+
+  it('should be able to use namespace inside namespace with replace', () => {
+    const result = render(ProviderFactory({
+      locale: 'sk',
+      adapter: {
+        sk: {
+          namespace: {
+            test: 'Test response',
+          },
+        },
+      },
+    }, NamespaceFactory({
+      namespace: 'namespace1',
+    }, NamespaceFactory({
+      namespace: 'namespace',
+      replace: true,
+    }, TranslateFactory({
+      path: 'test',
+    })))));
+
+    result.should.equal('<span>Test response</span>');
   });
 });
