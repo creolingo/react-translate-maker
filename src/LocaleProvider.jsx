@@ -20,6 +20,7 @@ export default class LocaleProvider extends Component {
 
   static childContextTypes = {
     translate: PropTypes.object.isRequired,
+    t: PropTypes.func.isRequired,
   };
 
   constructor(props, context) {
@@ -32,6 +33,10 @@ export default class LocaleProvider extends Component {
 
   componentWillReceiveProps(newProps) {
     this.state.translate.setLocale(newProps.locale);
+  }
+
+  t = (path, attrs) => {
+    return this.get(path, attrs);
   }
 
   get(path, attrs) {
@@ -47,6 +52,7 @@ export default class LocaleProvider extends Component {
   getChildContext() {
     return {
       translate: this,
+      t: this.t,
     };
   }
 

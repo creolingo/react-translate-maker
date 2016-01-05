@@ -44,15 +44,22 @@ var LocaleProvider = (function (_Component) {
   }, {
     key: 'childContextTypes',
     value: {
-      translate: _react.PropTypes.object.isRequired
+      translate: _react.PropTypes.object.isRequired,
+      t: _react.PropTypes.func.isRequired
     },
     enumerable: true
   }]);
 
   function LocaleProvider(props, context) {
+    var _this = this;
+
     _classCallCheck(this, LocaleProvider);
 
     _get(Object.getPrototypeOf(LocaleProvider.prototype), 'constructor', this).call(this, props, context);
+
+    this.t = function (path, attrs) {
+      return _this.get(path, attrs);
+    };
 
     this.state = {
       translate: new _translateMaker2['default'](props)
@@ -82,7 +89,8 @@ var LocaleProvider = (function (_Component) {
     key: 'getChildContext',
     value: function getChildContext() {
       return {
-        translate: this
+        translate: this,
+        t: this.t
       };
     }
   }, {
