@@ -83,6 +83,7 @@ var Translate = (function (_Component) {
       path: _react.PropTypes.string.isRequired,
       tagName: _react.PropTypes.string.isRequired,
       defaultValue: _react.PropTypes.string,
+      description: _react.PropTypes.string,
       className: _react.PropTypes.string,
       params: _react.PropTypes.object,
       props: _react.PropTypes.object

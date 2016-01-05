@@ -11,6 +11,7 @@ export default class Translate extends Component {
     path: PropTypes.string.isRequired,
     tagName: PropTypes.string.isRequired,
     defaultValue: PropTypes.string,
+    description: PropTypes.string,
     className: PropTypes.string,
     params: PropTypes.object,
     props: PropTypes.object,

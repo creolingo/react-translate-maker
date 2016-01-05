@@ -34,18 +34,37 @@ var TranslateHTML = (function (_Component) {
   }
 
   _createClass(TranslateHTML, [{
+    key: 'getPath',
+    value: function getPath() {
+      var path = this.props.path;
+      var namespace = this.context.namespace;
+
+      if (!namespace) {
+        return path;
+      }
+
+      var parentPath = namespace.getPath();
+      if (!parentPath) {
+        return path;
+      }
+
+      return parentPath + '.' + path;
+    }
+  }, {
     key: 'render',
     value: function render() {
       var _props = this.props;
-      var path = _props.path;
       var tagName = _props.tagName;
       var params = _props.params;
+      var defaultValue = _props.defaultValue;
       var _props$props = _props.props;
       var props = _props$props === undefined ? {} : _props$props;
       var children = _props.children;
 
+      var path = this.getPath();
+
       var translate = this.context.translate;
-      var text = translate.get(path, params || this.props);
+      var text = translate.get(path, params || this.props, defaultValue);
 
       var elementProps = _extends({}, props, {
         dangerouslySetInnerHTML: {
@@ -57,13 +76,17 @@ var TranslateHTML = (function (_Component) {
     }
   }], [{
     key: 'contextTypes',
-    value: _extends({}, _LocaleProvider2['default'].childContextTypes),
+    value: _extends({}, _LocaleProvider2['default'].childContextTypes, {
+      namespace: _react.PropTypes.object
+    }),
     enumerable: true
   }, {
     key: 'propTypes',
     value: {
       path: _react.PropTypes.string.isRequired,
       tagName: _react.PropTypes.string.isRequired,
+      defaultValue: _react.PropTypes.string,
+      description: _react.PropTypes.string,
       className: _react.PropTypes.string,
       params: _react.PropTypes.object,
       props: _react.PropTypes.object,
