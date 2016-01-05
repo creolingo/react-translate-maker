@@ -57,6 +57,7 @@ var Translate = (function (_Component) {
       var tagName = _props.tagName;
       var params = _props.params;
       var defaultValue = _props.defaultValue;
+      var className = _props.className;
       var _props$props = _props.props;
       var props = _props$props === undefined ? {} : _props$props;
 
@@ -65,8 +66,8 @@ var Translate = (function (_Component) {
       var translate = this.context.translate;
       var text = translate.get(path, params || this.props, defaultValue);
 
-      if (typeof tagName !== 'string') {
-        return tagName(props, text);
+      if (className && !props.className) {
+        props.className = className;
       }
 
       return _react2['default'].createElement(tagName, props, text);

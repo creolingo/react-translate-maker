@@ -60,13 +60,16 @@ var TranslateHTML = (function (_Component) {
       var _props$props = _props.props;
       var props = _props$props === undefined ? {} : _props$props;
       var children = _props.children;
+      var className = _props.className;
 
       var path = this.getPath();
 
       var translate = this.context.translate;
       var text = translate.get(path, params || this.props, defaultValue);
 
-      var elementProps = _extends({}, props, {
+      var elementProps = _extends({
+        className: className
+      }, props, {
         dangerouslySetInnerHTML: {
           __html: text
         }

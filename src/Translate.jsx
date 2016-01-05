@@ -37,15 +37,15 @@ export default class Translate extends Component {
   }
 
   render() {
-    const { tagName, params, defaultValue, props = {} } = this.props;
+    const { tagName, params, defaultValue, className, props = {} } = this.props;
 
     const path = this.getPath();
 
     const translate = this.context.translate;
     const text = translate.get(path, params || this.props, defaultValue);
 
-    if (typeof tagName !== 'string') {
-      return tagName(props, text);
+    if (className && !props.className) {
+      props.className = className;
     }
 
     return React.createElement(tagName, props, text);

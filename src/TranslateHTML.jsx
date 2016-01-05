@@ -38,7 +38,7 @@ export default class TranslateHTML extends Component {
   }
 
   render() {
-    const { tagName, params, defaultValue, props = {}, children } = this.props;
+    const { tagName, params, defaultValue, props = {}, children, className } = this.props;
 
     const path = this.getPath();
 
@@ -46,6 +46,7 @@ export default class TranslateHTML extends Component {
     const text = translate.get(path, params || this.props, defaultValue);
 
     const elementProps = {
+      className,
       ...props,
       dangerouslySetInnerHTML: {
         __html: text,
