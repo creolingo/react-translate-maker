@@ -3,7 +3,7 @@ import { Component, PropTypes, Children } from 'react';
 export default class LocaleProvider extends Component {
   static propTypes = {
     path: PropTypes.string,
-    replace: PropTypes.bool,
+    compose: PropTypes.bool,
   };
 
   static childContextTypes = {
@@ -15,8 +15,8 @@ export default class LocaleProvider extends Component {
   };
 
   getPath() {
-    const { path, replace } = this.props;
-    if (replace || !path) {
+    const { path, compose } = this.props;
+    if (!compose || !path) {
       return path;
     }
 

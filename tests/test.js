@@ -163,6 +163,7 @@ describe('Translate', () => {
       path: 'namespace1',
     }, NamespaceFactory({
       path: 'namespace2',
+      compose: true,
     }, TranslateFactory({
       path: 'test',
     })))));
@@ -184,7 +185,6 @@ describe('Translate', () => {
       path: 'namespace1',
     }, NamespaceFactory({
       path: 'namespace',
-      replace: true,
     }, TranslateFactory({
       path: 'test',
     })))));
