@@ -10,6 +10,7 @@ export default class Translate extends Component {
   static propTypes = {
     path: PropTypes.string.isRequired,
     tagName: PropTypes.string.isRequired,
+    defaultValue: PropTypes.string,
     className: PropTypes.string,
     params: PropTypes.object,
     props: PropTypes.object,
@@ -35,13 +36,12 @@ export default class Translate extends Component {
   }
 
   render() {
-    const { tagName, params, props = {} } = this.props;
-
+    const { tagName, params, defaultValue, props = {} } = this.props;
 
     const path = this.getPath();
 
     const translate = this.context.translate;
-    const text = translate.get(path, params || this.props);
+    const text = translate.get(path, params || this.props, defaultValue);
 
     if (typeof tagName !== 'string') {
       return tagName(props, text);

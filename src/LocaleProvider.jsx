@@ -35,13 +35,13 @@ export default class LocaleProvider extends Component {
     this.state.translate.setLocale(newProps.locale);
   }
 
-  t = (path, attrs) => {
-    return this.get(path, attrs);
+  t = (path, attrs, defaultValue) => {
+    return this.get(path, attrs, defaultValue);
   }
 
-  get(path, attrs) {
+  get(path, attrs, defaultValue) {
     const { translate } = this.state;
-    return translate.get(path, attrs);
+    return translate.get(path, attrs, defaultValue);
   }
 
   set(path, value) {

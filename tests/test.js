@@ -24,6 +24,18 @@ describe('Translate', () => {
     result.should.equal('<span>Test response</span>');
   });
 
+  it('should be able to create simple instance with default value', () => {
+    const result = render(ProviderFactory({
+      locale: 'sk',
+      adapter: {},
+    }, TranslateFactory({
+      path: 'test',
+      defaultValue: 'Test response',
+    })));
+
+    result.should.equal('<span>Test response</span>');
+  });
+
   it('should be able to create element h1', () => {
     const result = render(ProviderFactory({
       locale: 'sk',

@@ -57,8 +57,8 @@ var LocaleProvider = (function (_Component) {
 
     _get(Object.getPrototypeOf(LocaleProvider.prototype), 'constructor', this).call(this, props, context);
 
-    this.t = function (path, attrs) {
-      return _this.get(path, attrs);
+    this.t = function (path, attrs, defaultValue) {
+      return _this.get(path, attrs, defaultValue);
     };
 
     this.state = {
@@ -73,10 +73,10 @@ var LocaleProvider = (function (_Component) {
     }
   }, {
     key: 'get',
-    value: function get(path, attrs) {
+    value: function get(path, attrs, defaultValue) {
       var translate = this.state.translate;
 
-      return translate.get(path, attrs);
+      return translate.get(path, attrs, defaultValue);
     }
   }, {
     key: 'set',

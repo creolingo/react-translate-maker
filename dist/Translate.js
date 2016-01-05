@@ -56,13 +56,14 @@ var Translate = (function (_Component) {
       var _props = this.props;
       var tagName = _props.tagName;
       var params = _props.params;
+      var defaultValue = _props.defaultValue;
       var _props$props = _props.props;
       var props = _props$props === undefined ? {} : _props$props;
 
       var path = this.getPath();
 
       var translate = this.context.translate;
-      var text = translate.get(path, params || this.props);
+      var text = translate.get(path, params || this.props, defaultValue);
 
       if (typeof tagName !== 'string') {
         return tagName(props, text);
@@ -81,6 +82,7 @@ var Translate = (function (_Component) {
     value: {
       path: _react.PropTypes.string.isRequired,
       tagName: _react.PropTypes.string.isRequired,
+      defaultValue: _react.PropTypes.string,
       className: _react.PropTypes.string,
       params: _react.PropTypes.object,
       props: _react.PropTypes.object
