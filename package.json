@@ -1,6 +1,6 @@
 {
   "name": "react-translate-maker",
-  "version": "0.0.26",
+  "version": "0.0.28",
   "description": "Universal translation library for React",
   "main": "dist/index.js",
   "keywords": [
