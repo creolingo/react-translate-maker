@@ -49,6 +49,14 @@ export default class LocaleProvider extends Component {
     return translate.set(path, value);
   }
 
+  getLocale() {
+    return this.state.translate.getOptions().locale;
+  }
+
+  setLocale(locale, callback) {
+    return this.state.translate.setLocale(locale, callback);
+  }
+
   getChildContext() {
     return {
       translate: this,
