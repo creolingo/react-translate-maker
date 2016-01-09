@@ -236,12 +236,6 @@ The result will be
 <span class="small">Welcome back</span>
 ```
 
-The result will be
-
-```html
-<span style="color: red;">Welcome back</span>
-```
-
 ### Tag name
 
 You can change span to other tag. For this purpose there is a property named tagName.
