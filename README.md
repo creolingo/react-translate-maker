@@ -434,6 +434,9 @@ The result will be
 
 Please take a look on [translate-maker](https://github.com/CherrySoftware/translate-maker)
 
+# Support us
+
+Star this project on [GitHub][github-url].
 
 # Running Tests
 
