@@ -1,6 +1,6 @@
 # react-translate-maker
 
-Universal translation library for React. This library is part of [translate-maker](https://github.com/CherrySoftware/translate-maker).
+Universal internationalization (i18n) open source library for React. This library is part of [translate-maker](https://github.com/CherrySoftware/translate-maker).
 Star this project on [GitHub][github-url].
 
 [![NPM version][npm-image]][npm-url]
