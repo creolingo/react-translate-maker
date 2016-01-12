@@ -21,7 +21,7 @@ Star this project on [GitHub][github-url].
 Install via npm.
 
 ```sh
-npm install translate-maker
+npm install react-translate-maker
 ```
 
 # Features
