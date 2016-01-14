@@ -264,6 +264,48 @@ The result will be
 <h1>Welcome back</h1>
 ```
 
+### Placeholder and direct translations
+
+If you want to use translation function directly in your component. You can do that with the "t" function. This function has same arguments like the original "get" function from the translate-maker.
+
+```js
+import React, { Component } from 'react';
+import { LocaleProvider } from 'react-translate-maker';
+
+class MyComponent extends Component {
+  render() {
+    const t = this.context.t;
+
+    return (
+      <input type="text" placeholder={t('inputSearch', 'Search...')} />
+    );
+  }
+}
+
+MyComponent.contextTypes = {
+  t: PropTypes.func.isRequired,
+};
+
+const currentLocale = 'en_US';
+const data = {
+  en_US: {
+    inputSearch: 'Search'
+  }
+};
+
+React.render(
+  <LocaleProvider adapter={data} locale={currentLocale}>
+    <MyComponent />
+  </LocaleProvider>
+);
+```
+
+The result will be
+
+```html
+<h1>Welcome back</h1>
+```
+
 ### Namespaces
 
 Sometimes when you are using dot notation you can stack with long paths. For example: header.navigation.button.login. You can use component named Namespace which will help you to simplify your jsx file.
