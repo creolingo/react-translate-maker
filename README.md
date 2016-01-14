@@ -307,7 +307,7 @@ React.render(
 The result will be
 
 ```html
-<h1>Welcome back</h1>
+<input type="text" placeholder="Search" />
 ```
 
 ### Namespaces
