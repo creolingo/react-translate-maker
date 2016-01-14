@@ -54,7 +54,7 @@ const currentLocale = 'en_US';
 const data = {
   en_US: {
     hello: 'Hello {$user.name}',
-    followers: `{$user.name} has {$user.followers, plural
+    followers: `{$user.name} has {$user.followers, plural,
       zero {no followers}
       one  {# follower}
            {# followers}
