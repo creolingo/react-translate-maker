@@ -68,6 +68,27 @@ describe('Translate', () => {
     result.should.equal('<span>Hello Zlatko</span>');
   });
 
+  it('should be able to use plurals inside translation', () => {
+    const result = render(ProviderFactory({
+      locale: 'sk',
+      adapter: {
+        sk: {
+          followers: `{$name} has {$followers, plural,
+            =0 {no followers}
+            =1 {# follower}
+               {# followers}
+          }`,
+        },
+      },
+    }, TranslateFactory({
+      path: 'followers',
+      name: 'Zlatko',
+      followers: 0,
+    })));
+
+    result.should.equal('<span>Zlatko has no followers</span>');
+  });
+
   it('should be able to use params instead of props', () => {
     const result = render(ProviderFactory({
       locale: 'sk',
