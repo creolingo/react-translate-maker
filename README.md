@@ -269,6 +269,10 @@ The result will be
 If you want to use translation function directly in your component. You can do that with the "t" function. This function has same arguments like the original "get" function from the translate-maker.
 
 ```js
+t(path, args, defaultValue) || t(path, defaultValue)
+```
+
+```js
 import React, { Component } from 'react';
 import { LocaleProvider } from 'react-translate-maker';
 
