@@ -419,7 +419,7 @@ The result will be
 
 ### Locale switch
 
-We are providing a component for the locale switch. It a select with everything what do you need.
+We are providing a component for the locale switch. It is a select with everything what do you need.
 
 ```js
 import React from 'react';
