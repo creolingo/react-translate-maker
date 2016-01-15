@@ -429,9 +429,16 @@ const currentLocale = 'en_US';
 
 const data = {
   en_US: {
+    language: 'Language',
     button: {
      login: 'Log In',
      signup: 'Sign Up'
+    }
+  }, en_US: {
+    language: 'Jazyk',
+    button: {
+     login: 'Prihlasit sa',
+     signup: 'Odhlasit sa'
     }
   }
 };
@@ -450,7 +457,10 @@ React.render(
       <ul>
         <li><Translate path="button.login" /></li>
         <li><Translate path="button.signup" /></li>
-        <li>Language <LocaleSwitch locales={locales} /></li>
+        <li>
+          <Translate path="language" />
+          <LocaleSwitch locales={locales} />
+        </li>
       </ul>
     </nav>
   </LocaleProvider>
