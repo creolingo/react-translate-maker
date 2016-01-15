@@ -434,7 +434,8 @@ const data = {
      login: 'Log In',
      signup: 'Sign Up'
     }
-  }, en_US: {
+  },
+  sk_SK: {
     language: 'Jazyk',
     button: {
      login: 'Prihlasit sa',
