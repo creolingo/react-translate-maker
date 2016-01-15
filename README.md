@@ -417,6 +417,54 @@ The result will be
 <span>Welcome back <b>Zlatko</b>. How is it going?</span>
 ```
 
+### Locale switch
+
+We are providing a component for the locale switch. It a select with everything what do you need.
+
+```js
+import React from 'react';
+import Translate { LocaleProvider, LocaleSwitch } from 'react-translate-maker';
+
+const currentLocale = 'en_US';
+
+const data = {
+  en_US: {
+    button: {
+     login: 'Log In',
+     signup: 'Sign Up'
+    }
+  }
+};
+
+const locales = [{
+  label: 'English',
+  value: 'en_US'
+}, {
+  label: 'Slovenčina',
+  value: 'sk_SK'
+}];
+
+React.render(
+  <LocaleProvider adapter={data} locale={currentLocale}>
+    <nav>
+      <ul>
+        <li><Translate path="button.login" /></li>
+        <li><Translate path="button.signup" /></li>
+        <li>Lanaguage <LocaleSwitch locales={locales} /></li>
+      </ul>
+    </nav>
+  </LocaleProvider>
+);
+```
+
+#### Properties of the LocaleSwitch
+
+ - **onChange** (function): Callback witch a new locale
+ - **setLocale** (Boolean): It will set locale automatically in the translate-maker after change (default: true)
+ - **locales** (array): Array of the available locales. [{ label: 'English', value: 'en_US' }]
+ - all properties of the standard select component
+
+
 ### Filters
 
 Sometimes you need to provide HTML content.
@@ -473,6 +521,12 @@ The result will be
 ### More examples
 
 Please take a look on [translate-maker](https://github.com/CherrySoftware/translate-maker)
+
+## Roadmap
+
+ - [ ] Locales property of the LocaleSwitch can be an object
+ - [ ] Locales property of the LocaleSwitch can be autopopulated from the adapter
+ - [ ] Locales property of the LocaleSwitch can be translated automatically by translate-maker
 
 # Support us
 

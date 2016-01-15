@@ -6,13 +6,17 @@ export default class LocaleSwitch extends Component {
     ...LocaleProvider.childContextTypes,
   };
 
+  static defaultValue = {
+    setLocale: true,
+  };
+
   static propTypes = {
     locales: PropTypes.array.isRequired,
+    setLocale: PropTypes.bool,
     disabled: PropTypes.bool,
     name: PropTypes.string,
     className: PropTypes.string,
     onChange: PropTypes.func,
-    setLocale: PropTypes.bool,
   };
 
   handleChange(evn) {
@@ -51,10 +55,8 @@ export default class LocaleSwitch extends Component {
 
     return (
       <select
-        className={this.props.className}
-        name={this.props.name}
+        {...this.props }
         value={locale}
-        disabled={this.props.disabled}
         onChange={this.handleChange.bind(this)}>
           {locales.map((option, pos) => {
             return <option value={option.locale} key={pos}>{option.label}</option>;

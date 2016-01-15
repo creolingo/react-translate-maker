@@ -1,5 +1,5 @@
 import should from 'should';
-import Translate, { LocaleProvider, TranslateHTML, Memory, Namespace } from '../dist';
+import Translate, { LocaleProvider, TranslateHTML, Memory, Namespace, LocaleSwitch } from '../dist';
 import React from 'react';
 import { renderToStaticMarkup as render } from 'react-dom/server';
 
@@ -7,6 +7,7 @@ const ProviderFactory = React.createFactory(LocaleProvider);
 const TranslateFactory = React.createFactory(Translate);
 const TranslateHTMLFactory = React.createFactory(TranslateHTML);
 const NamespaceFactory = React.createFactory(Namespace);
+const LocaleSwitchFactory = React.createFactory(LocaleSwitch);
 
 describe('Translate', () => {
   it('should be able to create simple instance', () => {
