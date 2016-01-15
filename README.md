@@ -450,7 +450,7 @@ React.render(
       <ul>
         <li><Translate path="button.login" /></li>
         <li><Translate path="button.signup" /></li>
-        <li>Lanaguage <LocaleSwitch locales={locales} /></li>
+        <li>Language <LocaleSwitch locales={locales} /></li>
       </ul>
     </nav>
   </LocaleProvider>
