@@ -2,6 +2,7 @@ import gulp from 'gulp';
 import babel from 'gulp-babel';
 import jsxCoverage from 'gulp-jsx-coverage';
 import path from 'path';
+import coveralls from 'gulp-coveralls';
 
 gulp.task('test', jsxCoverage.createTask({
   src: ['./tests/**/*{.js,.jsx}'],  // will pass to gulp.src as mocha tests
@@ -37,8 +38,6 @@ gulp.task('build', () => {
     .pipe(gulp.dest('./dist'));
 });
 
-/*
-
 gulp.task('coveralls', ['test'], () => {
   if (!process.env.CI) {
     return void 0;
@@ -47,7 +46,7 @@ gulp.task('coveralls', ['test'], () => {
   return gulp.src(path.join(__dirname, 'coverage/lcov.info'))
     .pipe(coveralls());
 });
-*/
+
 
 gulp.doneCallback = (err) => {
   process.exit(err ? 1 : 0);

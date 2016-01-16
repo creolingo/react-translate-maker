@@ -1,6 +1,6 @@
 {
   "name": "react-translate-maker",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "Universal internationalization (i18n) open source library for React",
   "main": "dist/index.js",
   "keywords": [
@@ -32,6 +32,7 @@
     "prepublish": "npm run build",
     "test": "babel-node ./node_modules/gulp/bin/gulp.js test",
     "build": "babel-node ./node_modules/gulp/bin/gulp.js build",
+    "coveralls": "babel-node ./node_modules/gulp/bin/gulp.js coveralls",
     "eslint": "node ./node_modules/eslint/bin/eslint.js --ext .js,.jsx ."
   },
   "repository": {
@@ -63,6 +64,7 @@
     "eslint-plugin-react": "^3.15.0",
     "gulp": "^3.9.0",
     "gulp-babel": "^6.1.1",
+    "gulp-coveralls": "^0.1.4",
     "gulp-jsx-coverage": "^0.3.7",
     "gulp-util": "^3.0.7",
     "react": "^0.14.6",
