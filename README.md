@@ -420,12 +420,11 @@ The result will be
 ### Locale switch
 
 We are providing a component for the locale switch. It is a select with everything what do you need.
+You can use it in two ways. Here is first example.
 
 ```js
-import React from 'react';
+import React, { Component } from 'react';
 import Translate { LocaleProvider, LocaleSwitch } from 'react-translate-maker';
-
-const currentLocale = 'en_US';
 
 const data = {
   en_US: {
@@ -452,21 +451,108 @@ const locales = [{
   value: 'sk_SK'
 }];
 
-React.render(
-  <LocaleProvider adapter={data} locale={currentLocale}>
-    <nav>
-      <ul>
-        <li><Translate path="button.login" /></li>
-        <li><Translate path="button.signup" /></li>
-        <li>
-          <Translate path="language" />
-          <LocaleSwitch locales={locales} />
-        </li>
-      </ul>
-    </nav>
-  </LocaleProvider>
-);
+const DEFAULT_LOCALE = 'en_US';
+
+class App extends Component {
+  constructor(props, context) {
+    super(props, context);
+
+    this.state = {
+      locale: DEFAULT_LOCALE
+    };
+  }
+
+  handleLocaleChange(locale) {
+    this.setState({
+      locale: locale
+    });
+  }
+
+  render() {
+    const { data, locales } = this.props;
+    const currentLocale = this.state.locale;
+
+    return (
+      <LocaleProvider adapter={data} locale={currentLocale}>
+        <nav>
+          <ul>
+            <li><Translate path="button.login" /></li>
+            <li><Translate path="button.signup" /></li>
+            <li>
+              <Translate path="language" />
+              <LocaleSwitch locales={locales} onChange={this.handleLocaleChange.bind(this)}/>
+            </li>
+          </ul>
+        </nav>
+      </LocaleProvider>
+    );
+  }
+}
+
+React.render(<App data={data} locales={locales}/>);
 ```
+
+As you can see in previous example. We are using onChange event. The main reason for that is that LocaleProvider is a [controlled](https://facebook.github.io/react/docs/forms.html#why-controlled-components) component. That means if you wanted to change property named locale of the LocaleProvider you need to change it directly in the render function.
+
+If you want to use LocaleProvider as uncontrolled component you can do that. But all properties of the LocaleProvider will be used only as initialisation properties. Here is a second example (please take a loon on the property named controlled of the LocaleProvider).
+
+```js
+import React, { Component } from 'react';
+import Translate { LocaleProvider, LocaleSwitch } from 'react-translate-maker';
+
+const data = {
+  en_US: {
+    language: 'Language',
+    button: {
+     login: 'Log In',
+     signup: 'Sign Up'
+    }
+  },
+  sk_SK: {
+    language: 'Jazyk',
+    button: {
+     login: 'Prihlasit sa',
+     signup: 'Odhlasit sa'
+    }
+  }
+};
+
+const locales = [{
+  label: 'English',
+  value: 'en_US'
+}, {
+  label: 'Slovenčina',
+  value: 'sk_SK'
+}];
+
+const DEFAULT_LOCALE = 'en_US';
+
+class App extends Component {
+  render() {
+    const { data, locales } = this.props;
+    const currentLocale = this.state.locale;
+
+    return (
+      <LocaleProvider adapter={data} locale={DEFAULT_LOCALE} controlled={false}>
+        <nav>
+          <ul>
+            <li><Translate path="button.login" /></li>
+            <li><Translate path="button.signup" /></li>
+            <li>
+              <Translate path="language" />
+              <LocaleSwitch locales={locales}/>
+            </li>
+          </ul>
+        </nav>
+      </LocaleProvider>
+    );
+  }
+}
+
+React.render(<App data={data} locales={locales}/>);
+```
+
+The main difference is that you are not able to change locale of the LocaleProvider with property named locale after first render.
 
 #### Properties of the LocaleSwitch
 
@@ -528,6 +614,7 @@ The result will be
  - **combinations** (Boolean): You can turn on/off combinations. (Default true)
  - **defaultValue** (Function): What you will see for missing translations (Default (path, attrs) => `Missing default translation for: ${path}`)
  - **filters** (Object): Object with custom filters
+ - **controlled** (Boolean): You can set component as uncontrolled (default true). More [information](https://facebook.github.io/react/docs/forms.html#why-controlled-components).
 
 ### More examples
 
