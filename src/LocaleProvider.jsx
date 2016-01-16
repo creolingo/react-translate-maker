@@ -16,6 +16,11 @@ export default class LocaleProvider extends Component {
     variables: PropTypes.bool,
     combinations: PropTypes.bool,
     filters: PropTypes.object,
+    controlled: PropTypes.bool,
+  };
+
+  static defaultProps = {
+    controlled: true,
   };
 
   static childContextTypes = {
@@ -26,18 +31,40 @@ export default class LocaleProvider extends Component {
   constructor(props, context) {
     super(props, context);
 
+    const translate = new Translate(props);
+
     this.state = {
-      translate: new Translate(props),
+      translate,
+      locale: translate.getLocale(),
     };
   }
 
+  componentDidMount() {
+    const { translate } = this.state;
+
+    translate.on('locale', this._localeChanged);
+  }
+
+  componentWillUnmount() {
+    const { translate } = this.state;
+
+    translate.removeListener('locale', this._localeChanged);
+  }
+
+  _localeChanged = (locale) => {
+    this.setState({ locale });
+  };
+
   componentWillReceiveProps(newProps) {
-    this.state.translate.setLocale(newProps.locale);
+    if (newProps.locale && newProps.controlled) {
+      this.state.translate.setLocale(newProps.locale);
+      // TODO add other props
+    }
   }
 
   t = (path, attrs, defaultValue) => {
     return this.get(path, attrs, defaultValue);
-  }
+  };
 
   get(path, attrs, defaultValue) {
     const { translate } = this.state;
@@ -54,6 +81,10 @@ export default class LocaleProvider extends Component {
   }
 
   setLocale(locale, callback) {
+    if (this.props.controlled) {
+      return callback(new Error('LocaleProvider is set as controlled component. If you want to use setLocale please set controlled = false'));
+    }
+
     return this.state.translate.setLocale(locale, callback);
   }
 
