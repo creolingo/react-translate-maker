@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { Component } from 'react';
 import should from 'should';
-import Translate, { LocaleProvider, TranslateHTML, Memory, Namespace, LocaleSwitch } from '../dist';
+import Translate, { provideTranslations, LocaleProvider, TranslateHTML, Memory, Namespace, LocaleSwitch } from '../dist';
 import { renderJSX } from '../utils/tester';
 import { findDOMNode } from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
@@ -312,5 +312,32 @@ describe('Translate', () => {
 
     const select = findDOMNode(node).querySelector('select');
     TestUtils.Simulate.change(select, { target: { value: 'en_US' } });
+  });
+
+
+  it('should be able to use t decorator', () => {
+    const adapter = {
+      sk_SK: {
+        test: 'Testovacia odpoved',
+      },
+    };
+
+    @provideTranslations
+    class Test extends Component {
+      render () {
+        return (
+          <div>{this.props.t('test')}</div>
+        );
+      }
+    }
+
+    const node = renderJSX(
+      <LocaleProvider locale="sk_SK" adapter={adapter}>
+        <Test />
+      </LocaleProvider>
+    );
+
+    const content = findDOMNode(node).querySelector('div');
+    findDOMNode(node).innerHTML.should.equal('Testovacia odpoved');
   });
 });

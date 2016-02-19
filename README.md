@@ -311,6 +311,43 @@ The result will be
 <input type="text" placeholder="Search" />
 ```
 
+### Direct translations with ES7 decorator
+
+```js
+import React, { Component } from 'react';
+import { LocaleProvider, provideTranslations } from 'react-translate-maker';
+
+@provideTranslations
+class MyComponent extends Component {
+  render() {
+    const t = this.props.t;
+
+    return (
+      <input type="text" placeholder={t('inputSearch', 'Search...')} />
+    );
+  }
+}
+
+const currentLocale = 'en_US';
+const data = {
+  en_US: {
+    inputSearch: 'Search'
+  }
+};
+
+React.render(
+  <LocaleProvider adapter={data} locale={currentLocale}>
+    <MyComponent />
+  </LocaleProvider>
+);
+```
+
+The result will be
+
+```html
+<input type="text" placeholder="Search" />
+```
+
 ### Namespaces
 
 Sometimes when you are using dot notation you can stack with long paths. For example: header.navigation.button.login. You can use component named Namespace which will help you to simplify your jsx file.
