@@ -1,6 +1,6 @@
 # react-translate-maker
 
-Universal internationalization (i18n) open source library for React. This library is part of [translate-maker](https://github.com/CherrySoftware/translate-maker).
+Universal internationalization (i18n) open source library for React. This library is part of [translate-maker](https://github.com/CherryProjects/translate-maker).
 Star this project on [GitHub][github-url].
 
 [![NPM version][npm-image]][npm-url]
@@ -9,11 +9,11 @@ Star this project on [GitHub][github-url].
 
 [npm-image]: https://img.shields.io/npm/v/react-translate-maker.svg?style=flat-square
 [npm-url]: https://www.npmjs.com/react-translate-maker
-[travis-image]: https://img.shields.io/travis/CherrySoftware/react-translate-maker/master.svg?style=flat-square
-[travis-url]: https://travis-ci.org/CherrySoftware/react-translate-maker
-[coveralls-image]: https://img.shields.io/coveralls/CherrySoftware/react-translate-maker/master.svg?style=flat-square
-[coveralls-url]: https://coveralls.io/r/CherrySoftware/react-translate-maker?branch=master
-[github-url]: https://github.com/CherrySoftware/react-translate-maker
+[travis-image]: https://img.shields.io/travis/CherryProjects/react-translate-maker/master.svg?style=flat-square
+[travis-url]: https://travis-ci.org/CherryProjects/react-translate-maker
+[coveralls-image]: https://img.shields.io/coveralls/CherryProjects/react-translate-maker/master.svg?style=flat-square
+[coveralls-url]: https://coveralls.io/r/CherryProjects/react-translate-maker?branch=master
+[github-url]: https://github.com/CherryProjects/react-translate-maker
 
 
 # Installation
@@ -35,9 +35,9 @@ npm install react-translate-maker
 - Conditioned translations (Plural, Gender etc...)
 - Filters capitalize, upperCase, lowerCase etc... and custom filters
 - Default translations
-- Integrates with [React](https://github.com/CherrySoftware/react-translate-maker) and [Angular](https://github.com/CherrySoftware/angular-translate-maker)
-- [Automatic extraction](https://github.com/CherrySoftware/babel-plugin-react-translate-maker) of translations from your project
-- For more details and examples click on [translate-maker](https://github.com/CherrySoftware/translate-maker)
+- Integrates with [React](https://github.com/CherryProjects/react-translate-maker) and [Angular](https://github.com/CherryProjects/angular-translate-maker)
+- [Automatic extraction](https://github.com/CherryProjects/babel-plugin-react-translate-maker) of translations from your project
+- For more details and examples click on [translate-maker](https://github.com/CherryProjects/translate-maker)
 
 # Support us
 
@@ -656,7 +656,7 @@ The result will be
 
 ### More examples
 
-Please take a look on [translate-maker](https://github.com/CherrySoftware/translate-maker)
+Please take a look on [translate-maker](https://github.com/CherryProjects/translate-maker)
 
 ## Roadmap
 

@@ -37,18 +37,18 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/CherrySoftware/react-translate-maker.git"
+    "url": "https://github.com/CherryProjects/react-translate-maker.git"
   },
   "author": "Zlatko Fedor <zlatkofedor@cherrysro.com>",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/CherrySoftware/react-translate-maker/issues"
+    "url": "https://github.com/CherryProjects/react-translate-maker/issues"
   },
-  "homepage": "https://github.com/CherrySoftware/react-translate-maker",
+  "homepage": "https://github.com/CherryProjects/react-translate-maker",
   "dependencies": {
     "hoist-non-react-statics": "^1.0.5",
     "inherits": "^2.0.1",
-    "translate-maker": "^0.2.44"
+    "translate-maker": "^0.3.2"
   },
   "devDependencies": {
     "babel-cli": "^6.5.1",
@@ -63,7 +63,7 @@
     "eslint": "^1.10.3",
     "eslint-config-airbnb": "^0.1.1",
     "eslint-loader": "^1.3.0",
-    "eslint-plugin-react": "^3.16.1",
+    "eslint-plugin-react": "^4.1.0",
     "gulp": "^3.9.1",
     "gulp-babel": "^6.1.2",
     "gulp-coveralls": "^0.1.4",
