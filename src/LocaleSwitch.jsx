@@ -55,9 +55,16 @@ export default class LocaleSwitch extends Component {
     const locale = translate.getLocale();
     const { locales } = this.props;
 
+    const selectProps = {
+      ...this.props,
+    };
+
+    delete selectProps.setLocale;
+    delete selectProps.locales;
+
     return (
       <select
-        {...this.props }
+        {...selectProps }
         value={locale}
         onChange={this.handleChange.bind(this)}>
           {locales.map((option, pos) => {
