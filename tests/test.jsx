@@ -340,4 +340,39 @@ describe('Translate', () => {
     const content = findDOMNode(node).querySelector('div');
     findDOMNode(node).innerHTML.should.equal('Testovacia odpoved');
   });
+
+  it('should be able to other components as props', () => {
+    const adapter = {
+      sk_SK: {
+        test: 'Testovacia odpoved {$link}',
+      },
+    };
+
+    const node = renderJSX(
+      <LocaleProvider locale="sk_SK" adapter={adapter}>
+        <TranslateHTML path="test" link={<a>Asdf</a>} />
+      </LocaleProvider>
+    );
+
+    const content = findDOMNode(node).querySelector('div');
+    findDOMNode(node).innerHTML.should.equal('Testovacia odpoved <a>Asdf</a>');
+  });
+
+  it('should be able to other components as props with Translate', () => {
+    const adapter = {
+      sk_SK: {
+        test: 'Testovacia odpoved {$link}',
+        inner: '123',
+      },
+    };
+
+    const node = renderJSX(
+      <LocaleProvider locale="sk_SK" adapter={adapter}>
+        <TranslateHTML path="test" link={<a>Asdf <Translate path="inner" /></a>} />
+      </LocaleProvider>
+    );
+
+    const content = findDOMNode(node).querySelector('div');
+    findDOMNode(node).innerHTML.should.equal('Testovacia odpoved <a>Asdf <span>123</span></a>');
+  });
 });

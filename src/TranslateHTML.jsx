@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import LocaleProvider from './LocaleProvider';
+import { prepareProps } from './Translate';
 
 export default class TranslateHTML extends Component {
   static contextTypes = {
@@ -41,9 +42,12 @@ export default class TranslateHTML extends Component {
     const { tagName, params, defaultValue, props = {}, children, className } = this.props;
 
     const path = this.getPath();
+    const { translate } = this.context;
 
-    const translate = this.context.translate;
-    const text = translate.get(path, params || this.props, defaultValue);
+    const currentProps = params || this.props;
+    const updatedProps = prepareProps(currentProps, translate);
+    const isChanged = currentProps !== updatedProps;
+    const text = translate.get(path, updatedProps, defaultValue);
 
     const elementProps = {
       className,

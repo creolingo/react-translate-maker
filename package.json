@@ -1,6 +1,6 @@
 {
   "name": "react-translate-maker",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "description": "Universal internationalization (i18n) open source library for React",
   "main": "dist/index.js",
   "keywords": [
@@ -46,8 +46,10 @@
   },
   "homepage": "https://github.com/CherryProjects/react-translate-maker",
   "dependencies": {
+    "lodash": "^4.14.1",
     "translate-maker": "^0.4.5",
-    "react-provide-props": "^2.0.3"
+    "react-provide-props": "^2.0.3",
+    "react-addons-test-utils": "^15.3.0"
   },
   "devDependencies": {
     "babel-cli": "^6.8.0",

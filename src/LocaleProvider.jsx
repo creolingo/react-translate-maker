@@ -37,8 +37,6 @@ export default class LocaleProvider extends Component {
       translate,
       locale: translate.getLocale(),
     };
-
-    this.t = this.t.bind(this);
   }
 
   componentDidMount() {
@@ -64,7 +62,7 @@ export default class LocaleProvider extends Component {
     }
   }
 
-  t(path, attrs, defaultValue) {
+  t = (path, attrs, defaultValue) => {
     return this.get(path, attrs, defaultValue);
   }
 

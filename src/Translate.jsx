@@ -1,5 +1,28 @@
 import React, { Component, PropTypes } from 'react';
+import { renderToStaticMarkup } from 'react/lib/ReactDOMServer';
 import LocaleProvider from './LocaleProvider';
+import forEach from 'lodash/forEach';
+import { isElement } from 'react-addons-test-utils';
+
+export function prepareProps(props, localeProvider) {
+  const newProps = {};
+  let changed = false;
+
+  forEach(props, (value, key) => {
+    const isReactElement = isElement(value);
+    if (!isReactElement) {
+      newProps[key] = value;
+      return;
+    }
+
+    changed = true;
+    newProps[key] = renderToStaticMarkup(
+      <LocaleProvider {...localeProvider.props} children={value} />
+    );
+  });
+
+  return changed ? newProps : props;
+}
 
 export default class Translate extends Component {
   static contextTypes = {
@@ -36,13 +59,19 @@ export default class Translate extends Component {
     return `${parentPath}.${path}`;
   }
 
+
+
   render() {
     const { tagName, params, defaultValue, className, props = {} } = this.props;
 
     const path = this.getPath();
 
-    const translate = this.context.translate;
-    const text = translate.get(path, params || this.props, defaultValue);
+    const { translate } = this.context;
+
+    const currentProps = params || this.props;
+    const updatedProps = prepareProps(currentProps, translate);
+    const isChanged = currentProps !== updatedProps;
+    const text = translate.get(path, updatedProps, defaultValue);
 
     if (className && !props.className) {
       props.className = className;
