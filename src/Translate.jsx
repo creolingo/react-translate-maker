@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { renderToStaticMarkup } from 'react/lib/ReactDOMServer';
-import LocaleProvider from './LocaleProvider';
 import forEach from 'lodash/forEach';
 import { isElement } from 'react-addons-test-utils';
+import LocaleProvider from './LocaleProvider';
 
 export function prepareProps(props, localeProvider) {
   const newProps = {};
@@ -60,7 +60,6 @@ export default class Translate extends Component {
   }
 
 
-
   render() {
     const { tagName, params, defaultValue, className, props = {} } = this.props;
 
@@ -70,7 +69,6 @@ export default class Translate extends Component {
 
     const currentProps = params || this.props;
     const updatedProps = prepareProps(currentProps, translate);
-    const isChanged = currentProps !== updatedProps;
     const text = translate.get(path, updatedProps, defaultValue);
 
     if (className && !props.className) {

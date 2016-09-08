@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import { autobind } from 'core-decorators';
 import LocaleProvider from './LocaleProvider';
 
 export default class LocaleSwitch extends Component {
@@ -20,6 +21,7 @@ export default class LocaleSwitch extends Component {
     onError: PropTypes.func,
   };
 
+  @autobind
   handleChange(evn) {
     evn.stopPropagation();
 
@@ -28,8 +30,8 @@ export default class LocaleSwitch extends Component {
 
     const value = evn.target.value;
 
-    for (let index = 0; index < locales.length; index++) {
-      const { locale, label } = locales[index];
+    for (let index = 0; index < locales.length; index += 1) {
+      const { locale } = locales[index];
       if (locale !== value) {
         continue;
       }
@@ -64,12 +66,13 @@ export default class LocaleSwitch extends Component {
 
     return (
       <select
-        {...selectProps }
+        {...selectProps}
         value={locale}
-        onChange={this.handleChange.bind(this)}>
-          {locales.map((option, pos) => {
-            return <option value={option.locale} key={pos}>{option.label}</option>;
-          })}
+        onChange={this.handleChange}
+      >
+        {locales.map((option, pos) =>
+          <option value={option.locale} key={pos}>{option.label}</option>
+        )}
       </select>
     );
   }

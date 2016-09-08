@@ -4,6 +4,7 @@ export default class LocaleProvider extends Component {
   static propTypes = {
     path: PropTypes.string,
     compose: PropTypes.bool,
+    children: PropTypes.node,
   };
 
   static childContextTypes = {
@@ -13,6 +14,12 @@ export default class LocaleProvider extends Component {
   static contextTypes = {
     namespace: PropTypes.object,
   };
+
+  getChildContext() {
+    return {
+      namespace: this,
+    };
+  }
 
   getPath() {
     const { path, compose } = this.props;
@@ -28,12 +35,6 @@ export default class LocaleProvider extends Component {
     }
 
     return path;
-  }
-
-  getChildContext() {
-    return {
-      namespace: this,
-    };
   }
 
   render() {
