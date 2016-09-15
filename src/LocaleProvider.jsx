@@ -56,9 +56,12 @@ export default class LocaleProvider extends Component {
   };
 
   componentWillReceiveProps(newProps) {
-    if (newProps.locale && newProps.controlled) {
-      this.state.translate.setLocale(newProps.locale);
-      // TODO add other props
+    if (newProps.controlled) {
+      if (newProps.locale)
+        this.state.translate.setLocale(newProps.locale);
+      if (newProps.namespace)
+        this.state.translate.load(newProps.namespace);
+        // TODO add other props
     }
   }
 
