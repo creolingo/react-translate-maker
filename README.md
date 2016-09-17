@@ -65,7 +65,7 @@ const data = {
 
 const user = {
   name: 'Zlatko',
-  followers: 15
+  followers: 15,
 };
 
 React.render(
@@ -116,17 +116,17 @@ import path from 'path';
 
 const currentLocale = 'en_US';
 const adapter = new Adapters.File({
-  path: path.join(__dirname, '/locales')
+  path: path.join(__dirname, '/locales'),
 });
 
 const user1 = {
   gender: Gender.MALE,
-  name: 'Zlatko'
+  name: 'Zlatko',
 };
 
 const user1 = {
   gender: Gender.FEMALE,
-  name: 'Livia'
+  name: 'Livia',
 };
 
 React.render(
@@ -160,12 +160,12 @@ const adapter = new Adapters.File({
 
 const user1 = {
   gender: Gender.MALE,
-  name: 'Zlatko'
+  name: 'Zlatko',
 };
 
 const user1 = {
   gender: Gender.FEMALE,
-  name: 'Livia'
+  name: 'Livia',
 };
 
 React.render(
@@ -186,14 +186,14 @@ import Translate { LocaleProvider } from 'react-translate-maker';
 const currentLocale = 'en_US';
 const data = {
   en_US: {
-    welcome: 'Welcome back'
-  }
+    welcome: 'Welcome back',
+  },
 };
 
 const props = {
   style: {
-    color: 'red'
-  }
+    color: 'red',
+  },
 };
 
 React.render(
@@ -220,8 +220,8 @@ import Translate { LocaleProvider } from 'react-translate-maker';
 const currentLocale = 'en_US';
 const data = {
   en_US: {
-    welcome: 'Welcome back'
-  }
+    welcome: 'Welcome back',
+  },
 };
 
 React.render(
@@ -248,8 +248,8 @@ import Translate { LocaleProvider } from 'react-translate-maker';
 const currentLocale = 'en_US';
 const data = {
   en_US: {
-    welcome: 'Welcome back'
-  }
+    welcome: 'Welcome back',
+  },
 };
 
 React.render(
@@ -294,8 +294,8 @@ MyComponent.contextTypes = {
 const currentLocale = 'en_US';
 const data = {
   en_US: {
-    inputSearch: 'Search'
-  }
+    inputSearch: 'Search',
+  },
 };
 
 React.render(
@@ -331,8 +331,8 @@ class MyComponent extends Component {
 const currentLocale = 'en_US';
 const data = {
   en_US: {
-    inputSearch: 'Search'
-  }
+    inputSearch: 'Search',
+  },
 };
 
 React.render(
@@ -364,11 +364,11 @@ const data = {
         title: 'MyProject',
         button: {
          login: 'Log In',
-         signup: 'Sign Up'
-        }
-      }
-    }
-  }
+         signup: 'Sign Up',
+        },
+      },
+    },
+  },
 };
 
 React.render(
@@ -399,11 +399,11 @@ const data = {
         title: 'MyProject',
         button: {
          login: 'Log In',
-         signup: 'Sign Up'
-        }
-      }
-    }
-  }
+         signup: 'Sign Up',
+        },
+      },
+    },
+  },
 };
 
 React.render(
@@ -434,12 +434,12 @@ import { LocaleProvider, TranslateHTML } from 'react-translate-maker';
 const currentLocale = 'en_US';
 const data = {
   en_US: {
-    welcome: 'Welcome back <b>{$user.name}</b>. How is it going?'
-  }
+    welcome: 'Welcome back <b>{$user.name}</b>. How is it going?',
+  },
 };
 
 const user = {
-  name: 'Zlatko'
+  name: 'Zlatko',
 };
 
 React.render(
@@ -469,24 +469,24 @@ const data = {
     language: 'Language',
     button: {
      login: 'Log In',
-     signup: 'Sign Up'
-    }
+     signup: 'Sign Up',
+    },
   },
   sk_SK: {
     language: 'Jazyk',
     button: {
      login: 'Prihlasit sa',
-     signup: 'Odhlasit sa'
-    }
-  }
+     signup: 'Odhlasit sa',
+    },
+  },
 };
 
 const locales = [{
   label: 'English',
-  value: 'en_US'
+  value: 'en_US',
 }, {
   label: 'Slovenčina',
-  value: 'sk_SK'
+  value: 'sk_SK',
 }];
 
 const DEFAULT_LOCALE = 'en_US';
@@ -496,13 +496,13 @@ class App extends Component {
     super(props, context);
 
     this.state = {
-      locale: DEFAULT_LOCALE
+      locale: DEFAULT_LOCALE,
     };
   }
 
   handleLocaleChange(locale) {
     this.setState({
-      locale: locale
+      locale: locale,
     });
   }
 
@@ -543,24 +543,24 @@ const data = {
     language: 'Language',
     button: {
      login: 'Log In',
-     signup: 'Sign Up'
-    }
+     signup: 'Sign Up',
+    },
   },
   sk_SK: {
     language: 'Jazyk',
     button: {
      login: 'Prihlasit sa',
-     signup: 'Odhlasit sa'
-    }
-  }
+     signup: 'Odhlasit sa',
+    },
+  },
 };
 
 const locales = [{
   label: 'English',
-  value: 'en_US'
+  value: 'en_US',
 }, {
   label: 'Slovenčina',
-  value: 'sk_SK'
+  value: 'sk_SK',
 }];
 
 const DEFAULT_LOCALE = 'en_US';
@@ -594,7 +594,8 @@ The main difference is that you are not able to change locale of the LocaleProvi
 
 #### Properties of the LocaleSwitch
 
- - **onChange** (function): Callback witch a new locale
+ - **onChange** (function): Callback witch a new locale (immediate change)
+ - **onLocaleChange** (function): Callback witch a new locale (after success change)
  - **setLocale** (Boolean): It will set locale automatically in the translate-maker after change (default: true)
  - **locales** (array): Array of the available locales. [{ label: 'English', value: 'en_US' }]
  - all properties of the standard select component
@@ -611,18 +612,18 @@ import Translate, { LocaleProvider } from 'react-translate-maker';
 const currentLocale = 'en_US';
 const data = {
   en_US: {
-    welcome: 'Welcome {$user.name | star}'
-  }
+    welcome: 'Welcome {$user.name | star}',
+  },
 };
 
 const filters = {
   star: function star(value) {
     return '*** ' + value + ' ***';
-  }
+  },
 };
 
 const user = {
-  name: 'Zlatko'
+  name: 'Zlatko',
 };
 
 React.render(
