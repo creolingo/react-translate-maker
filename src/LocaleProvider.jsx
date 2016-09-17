@@ -57,11 +57,13 @@ export default class LocaleProvider extends Component {
 
   componentWillReceiveProps(newProps) {
     if (newProps.controlled) {
-      if (newProps.locale)
+      if (newProps.locale) {
         this.state.translate.setLocale(newProps.locale);
-      if (newProps.namespace)
+      }
+
+      if (newProps.namespace) {
         this.state.translate.load(newProps.namespace);
-        // TODO add other props
+      }
     }
   }
 
@@ -88,7 +90,9 @@ export default class LocaleProvider extends Component {
       return callback(new Error('LocaleProvider is set as controlled component. If you want to use setLocale please set controlled = false'));
     }
 
-    return this.state.translate.setLocale(locale, callback);
+    return this.state.translate.setLocale(locale, (...args) => {
+      callback(...args);
+    });
   }
 
   getChildContext() {

@@ -46,7 +46,6 @@ export default class TranslateHTML extends Component {
 
     const currentProps = params || this.props;
     const updatedProps = prepareProps(currentProps, translate);
-    const isChanged = currentProps !== updatedProps;
     const text = translate.get(path, updatedProps, defaultValue);
 
     const elementProps = {

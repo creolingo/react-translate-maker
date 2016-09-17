@@ -18,6 +18,7 @@ export default class LocaleSwitch extends Component {
     name: PropTypes.string,
     className: PropTypes.string,
     onChange: PropTypes.func,
+    onLocaleChange: PropTypes.func,
     onError: PropTypes.func,
   };
 
@@ -25,7 +26,7 @@ export default class LocaleSwitch extends Component {
   handleChange(evn) {
     evn.stopPropagation();
 
-    const { locales, onChange, onError, setLocale } = this.props;
+    const { locales, onChange, onError, setLocale, onLocaleChange } = this.props;
     const translate = this.context.translate;
 
     const value = evn.target.value;
@@ -40,6 +41,11 @@ export default class LocaleSwitch extends Component {
         translate.setLocale(locale, (err) => {
           if (err && onError) {
             onError(err);
+            return;
+          }
+
+          if (onLocaleChange) {
+            setTimeout(() => onLocaleChange(locale), 0);
           }
         });
       }
@@ -63,6 +69,7 @@ export default class LocaleSwitch extends Component {
 
     delete selectProps.setLocale;
     delete selectProps.locales;
+    delete selectProps.onLocaleChange;
 
     return (
       <select
