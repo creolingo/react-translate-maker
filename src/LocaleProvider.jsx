@@ -40,6 +40,13 @@ export default class LocaleProvider extends Component {
     };
   }
 
+  getChildContext() {
+    return {
+      translate: this,
+      t: this.t,
+    };
+  }
+
   componentDidMount() {
     const { translate } = this.state;
 
