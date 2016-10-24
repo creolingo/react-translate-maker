@@ -1,6 +1,6 @@
 {
   "name": "react-translate-maker",
-  "version": "0.2.11",
+  "version": "0.2.12",
   "description": "Universal internationalization (i18n) open source library for React",
   "main": "dist/index.js",
   "keywords": [
@@ -51,7 +51,7 @@
     "core-decorators": "^0.12.3",
     "lodash": "^4.15.0",
     "react-provide-props": "^2.0.3",
-    "translate-maker": "^0.4.7",
+    "translate-maker": "^0.4.8",
     "react-addons-test-utils": "^15.3.1"
   },
   "devDependencies": {

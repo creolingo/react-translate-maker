@@ -3,6 +3,7 @@ import Translate from 'translate-maker';
 
 export default class LocaleProvider extends Component {
   static propTypes = {
+    children: PropTypes.node,
     locale: PropTypes.string,
     locales: PropTypes.array,
     namespace: PropTypes.string,
@@ -42,18 +43,9 @@ export default class LocaleProvider extends Component {
   componentDidMount() {
     const { translate } = this.state;
 
-    translate.on('locale', this._localeChanged);
+    translate.on('locale', this.localeChanged);
+    translate.on('changed', this.dataChanged);
   }
-
-  componentWillUnmount() {
-    const { translate } = this.state;
-
-    translate.removeListener('locale', this._localeChanged);
-  }
-
-  _localeChanged = (locale) => {
-    this.setState({ locale });
-  };
 
   componentWillReceiveProps(newProps) {
     if (newProps.controlled) {
@@ -67,8 +59,11 @@ export default class LocaleProvider extends Component {
     }
   }
 
-  t = (path, attrs, defaultValue) => {
-    return this.get(path, attrs, defaultValue);
+  componentWillUnmount() {
+    const { translate } = this.state;
+
+    translate.removeListener('locale', this.localeChanged);
+    translate.removeListener('changed', this.dataChanged);
   }
 
   get(path, attrs, defaultValue) {
@@ -95,11 +90,16 @@ export default class LocaleProvider extends Component {
     });
   }
 
-  getChildContext() {
-    return {
-      translate: this,
-      t: this.t,
-    };
+  t = (path, attrs, defaultValue) => {
+    return this.get(path, attrs, defaultValue);
+  }
+
+  dataChanged = () => {
+    this.forceUpdate();
+  }
+
+  localeChanged = (locale) => {
+    this.setState({ locale });
   }
 
   render() {
