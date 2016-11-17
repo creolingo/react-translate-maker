@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { renderToStaticMarkup } from 'react/lib/ReactDOMServer';
+import { renderToStaticMarkup } from 'react-dom/server';
 import forEach from 'lodash/forEach';
 import { isElement } from 'react-addons-test-utils';
 import LocaleProvider from './LocaleProvider';
