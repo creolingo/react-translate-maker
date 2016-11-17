@@ -24,6 +24,11 @@ Install via npm.
 npm install react-translate-maker
 ```
 
+# Versions
+
+If you are using react >= 15.4.0 use version >= 0.3.0 otherwise use version < 0.3.0
+
+
 # Features
 
 - Build on standards ([ICU Message syntax](http://userguide.icu-project.org/formatparse/messages), [Unicode CLDR](http://cldr.unicode.org/))
