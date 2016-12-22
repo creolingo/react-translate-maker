@@ -4,20 +4,20 @@ import Translate from 'translate-maker';
 export default class LocaleProvider extends Component {
   static propTypes = {
     children: PropTypes.node,
+    controlled: PropTypes.bool,
     locale: PropTypes.string,
+
     locales: PropTypes.array,
-    namespace: PropTypes.string,
-    fallbacks: PropTypes.object,
     cache: PropTypes.object,
+    data: PropTypes.object,
     adapter: PropTypes.object,
-    defaultAdapter: PropTypes.object,
     dotNotation: PropTypes.bool,
     mode: PropTypes.string,
     references: PropTypes.bool,
     variables: PropTypes.bool,
     combinations: PropTypes.bool,
     filters: PropTypes.object,
-    controlled: PropTypes.bool,
+    translate: PropTypes.object,
   };
 
   static defaultProps = {
@@ -32,12 +32,16 @@ export default class LocaleProvider extends Component {
   constructor(props, context) {
     super(props, context);
 
-    const translate = new Translate(props);
+    const { translate, locale, children, controlled, ...rest } = props;
+    const instance = translate || new Translate(rest);
 
     this.state = {
-      translate,
-      locale: translate.getLocale(),
+      translate: instance,
     };
+
+    if (locale) {
+      instance.setLocale(locale);
+    }
   }
 
   getChildContext() {
@@ -54,23 +58,21 @@ export default class LocaleProvider extends Component {
     translate.on('changed', this.dataChanged);
   }
 
-  componentWillReceiveProps(newProps) {
-    if (newProps.controlled) {
-      if (newProps.locale) {
-        this.state.translate.setLocale(newProps.locale);
-      }
-
-      if (newProps.namespace) {
-        this.state.translate.load(newProps.namespace);
-      }
-    }
-  }
-
   componentWillUnmount() {
     const { translate } = this.state;
 
     translate.removeListener('locale', this.localeChanged);
     translate.removeListener('changed', this.dataChanged);
+  }
+
+  componentWillReceiveProps(newProps) {
+    const { locale } = this.props;
+
+    if (newProps.controlled) {
+      if (newProps.locale !== locale) {
+        this.setLocale(newProps.locale);
+      }
+    }
   }
 
   get(path, attrs, defaultValue) {
@@ -83,23 +85,21 @@ export default class LocaleProvider extends Component {
     return translate.set(path, value);
   }
 
-  getLocale() {
-    return this.state.translate.getOptions().locale;
-  }
-
-  setLocale(locale, callback) {
+  async setLocale(locale) {
     if (this.props.controlled) {
-      return callback(new Error('LocaleProvider is set as controlled component. If you want to use setLocale please set controlled = false'));
+      throw new Error('LocaleProvider is set as controlled component. If you want to use setLocale please set controlled = false');
     }
 
-    return this.state.translate.setLocale(locale, (...args) => {
-      callback(...args);
-    });
+    const { translate } = this.state;
+    return await translate.setLocale(locale);
   }
 
-  t = (path, attrs, defaultValue) => {
-    return this.get(path, attrs, defaultValue);
+  getLocale() {
+    const { translate } = this.state;
+    return translate.getLocale();
   }
+
+  t = (path, attrs, defaultValue) => this.get(path, attrs, defaultValue);
 
   dataChanged = () => {
     this.forceUpdate();

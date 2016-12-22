@@ -1,6 +1,6 @@
 # react-translate-maker
 
-Universal internationalization (i18n) open source library for React. This library is part of [translate-maker](https://github.com/CherryProjects/translate-maker).
+React translation module. Internationalize your great project. This library is part of [translate-maker](https://github.com/CherryProjects/translate-maker).
 Star this project on [GitHub][github-url].
 
 [![NPM version][npm-image]][npm-url]
@@ -31,7 +31,7 @@ If you are using react >= 15.4.0 use version >= 0.3.0 otherwise use version < 0.
 
 # Features
 
-- Build on standards ([ICU Message syntax](http://userguide.icu-project.org/formatparse/messages), [Unicode CLDR](http://cldr.unicode.org/))
+- Build on standards ([ICU Message syntax](http://userguide.icu-project.org/formatparse/messages), [Unicode CLDR](http://cldr.unicode.org/)), ES6 and Promises
 - Support for 190+ languages
 - Runs in the browser and Node.js
 - JSON Structure
@@ -54,19 +54,20 @@ Star this project on [GitHub][github-url].
 
 ```js
 import React from 'react';
-import Translate { LocaleProvider } from 'react-translate-maker';
+import Translate { LocaleProvider, TranslateMaker } from 'react-translate-maker';
 
-const currentLocale = 'en_US';
-const data = {
-  en_US: {
-    hello: 'Hello {$user.name}',
-    followers: `{$user.name} has {$user.followers, plural,
-      zero {no followers}
-      one  {# follower}
-           {# followers}
-    }`
+const translate = new TranslateMaker({
+  data: {
+    en_US: {
+      hello: 'Hello {$user.name}',
+      followers: `{$user.name} has {$user.followers, plural,
+        zero {no followers}
+        one  {# follower}
+             {# followers}
+      }`
+    }
   }
-};
+});
 
 const user = {
   name: 'Zlatko',
@@ -74,7 +75,7 @@ const user = {
 };
 
 React.render(
-  <LocaleProvider adapter={data} locale={currentLocale}>
+  <LocaleProvider translate={translate} locale="en_US">
     <Translate path="hello" user={user} tagName="h1"/>
     <Translate path="followers" user={user} />
   </LocaleProvider>
@@ -116,13 +117,16 @@ export default {
 
 ```js
 import React from 'react';
-import Translate { LocaleProvider, Gender, Adapters } from 'react-translate-maker';
+import Translate { LocaleProvider, TranslateMaker, Gender, FileAdapter } from 'react-translate-maker';
 import path from 'path';
 
-const currentLocale = 'en_US';
-const adapter = new Adapters.File({
-  path: path.join(__dirname, '/locales'),
+const translate = new TranslateMaker({
+  adapter: new FileAdapter({
+    path: path.join(__dirname, '/locales'),
+  });
 });
+
+const currentLocale = 'en_US';
 
 const user1 = {
   gender: Gender.MALE,
@@ -135,7 +139,7 @@ const user1 = {
 };
 
 React.render(
-  <LocaleProvider adapter={adapter} locale={currentLocale}>
+  <LocaleProvider translate={translate} locale={currentLocale}>
     <Translate path="working" user1={user1} user2={user2} />
   </LocaleProvider>
 );
@@ -156,12 +160,15 @@ If you want to use webpack with file adapter you need to use own function getFil
 
 ```js
 import React from 'react';
-import Translate { LocaleProvider, Gender, Adapters } from 'react-translate-maker';
+import Translate { LocaleProvider, TranslateMaker, Gender, FileAdapter } from 'react-translate-maker';
+
+const translate = new TranslateMaker({
+  adapter: new FileAdapter({
+    getFile: (locale, namespace) => require('./locale/' + locale),
+  });
+});
 
 const currentLocale = 'en_US';
-const adapter = new Adapters.File({
-  getFile: (locale, namespace) => require('./locale/' + locale),
-});
 
 const user1 = {
   gender: Gender.MALE,
@@ -174,7 +181,7 @@ const user1 = {
 };
 
 React.render(
-  <LocaleProvider adapter={adapter} locale={currentLocale}>
+  <LocaleProvider translate={translate} locale={currentLocale}>
     <Translate path="working" user1={user1} user2={user2} />
   </LocaleProvider>
 );
@@ -186,14 +193,17 @@ You can provide own props. For example style.
 
 ```js
 import React from 'react';
-import Translate { LocaleProvider } from 'react-translate-maker';
+import Translate { LocaleProvider, TranslateMaker } from 'react-translate-maker';
+
+const translate = new TranslateMaker({
+  data: {
+    en_US: {
+      welcome: 'Welcome back',
+    },
+  },
+});
 
 const currentLocale = 'en_US';
-const data = {
-  en_US: {
-    welcome: 'Welcome back',
-  },
-};
 
 const props = {
   style: {
@@ -202,7 +212,7 @@ const props = {
 };
 
 React.render(
-  <LocaleProvider adapter={data} locale={currentLocale}>
+  <LocaleProvider translate={translate} locale={currentLocale}>
     <Translate path="welcome" props={props} />
   </LocaleProvider>
 );

@@ -16,9 +16,12 @@ export function prepareProps(props, localeProvider) {
     }
 
     changed = true;
-    newProps[key] = renderToStaticMarkup(
-      <LocaleProvider {...localeProvider.props} children={value} />
-    );
+    const { children, locale, ...rest } = localeProvider.props;
+    newProps[key] = renderToStaticMarkup((
+      <LocaleProvider {...rest}>
+        {value}
+      </LocaleProvider>
+    ));
   });
 
   return changed ? newProps : props;

@@ -23,38 +23,34 @@ export default class LocaleSwitch extends Component {
   };
 
   @autobind
-  handleChange(evn) {
+  async onChange(evn) {
     evn.stopPropagation();
 
     const { locales, onChange, onError, setLocale, onLocaleChange } = this.props;
     const translate = this.context.translate;
 
     const value = evn.target.value;
-
-    for (let index = 0; index < locales.length; index += 1) {
-      const { locale } = locales[index];
-      if (locale !== value) {
-        continue;
-      }
-
-      if (setLocale && !translate.props.controlled) {
-        translate.setLocale(locale, (err) => {
-          if (err && onError) {
-            onError(err);
-            return;
-          }
-
-          if (onLocaleChange) {
-            setTimeout(() => onLocaleChange(locale), 0);
-          }
-        });
-      }
-
-      if (onChange) {
-        onChange(locale);
-      }
-
+    const exists = locales.find(l => l.locale === value);
+    if (!exists) {
       return;
+    }
+
+    if (setLocale && !translate.props.controlled) {
+      try {
+        await translate.setLocale(value);
+        if (onLocaleChange) {
+          onLocaleChange(value);
+        }
+      } catch (e) {
+        if (onError) {
+          onError(e);
+          return;
+        }
+      }
+    }
+
+    if (onChange) {
+      onChange(value);
     }
   }
 
@@ -75,11 +71,13 @@ export default class LocaleSwitch extends Component {
       <select
         {...selectProps}
         value={locale}
-        onChange={this.handleChange}
+        onChange={this.onChange}
       >
-        {locales.map((option, pos) =>
-          <option value={option.locale} key={pos}>{option.label}</option>
-        )}
+        {locales.map((option, pos) => (
+          <option value={option.locale} key={pos}>
+            {option.label}
+          </option>
+        ))}
       </select>
     );
   }
