@@ -6,6 +6,7 @@ export default class LocaleProvider extends Component {
     children: PropTypes.node,
     controlled: PropTypes.bool,
     locale: PropTypes.string,
+    namespace: PropTypes.string,
 
     locales: PropTypes.array,
     cache: PropTypes.object,
@@ -32,7 +33,7 @@ export default class LocaleProvider extends Component {
   constructor(props, context) {
     super(props, context);
 
-    const { translate, locale, children, controlled, ...rest } = props;
+    const { translate, locale, namespace, children, controlled, ...rest } = props;
     const instance = translate || new Translate(rest);
 
     this.state = {
@@ -40,7 +41,7 @@ export default class LocaleProvider extends Component {
     };
 
     if (locale) {
-      instance.setLocale(locale);
+      instance.setLocale(locale, namespace);
     }
   }
 
@@ -66,12 +67,14 @@ export default class LocaleProvider extends Component {
   }
 
   componentWillReceiveProps(newProps) {
-    const { locale } = this.props;
+    const { locale, namespace } = this.props;
     const { translate } = this.state;
 
     if (newProps.controlled) {
       if (newProps.locale !== locale) {
-        translate.setLocale(newProps.locale);
+        translate.setLocale(newProps.locale, newProps.namespace);
+      } else if (newProps.locale && newProps.namespace !== namespace) {
+        translate.setLocale(newProps.locale, newProps.namespace);
       }
     }
   }
