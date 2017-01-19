@@ -1,6 +1,6 @@
 # react-translate-maker
 
-Universal internationalization (i18n) open source library for React. This library is part of [translate-maker](https://github.com/CherryProjects/translate-maker).
+React translation module. Internationalize your great project. This library is part of [translate-maker](https://github.com/CherryProjects/translate-maker).
 Star this project on [GitHub][github-url].
 
 [![NPM version][npm-image]][npm-url]
@@ -24,9 +24,14 @@ Install via npm.
 npm install react-translate-maker
 ```
 
+# Versions
+
+If you are using react >= 15.4.0 use version >= 0.3.0 otherwise use version < 0.3.0
+
+
 # Features
 
-- Build on standards ([ICU Message syntax](http://userguide.icu-project.org/formatparse/messages), [Unicode CLDR](http://cldr.unicode.org/))
+- Build on standards ([ICU Message syntax](http://userguide.icu-project.org/formatparse/messages), [Unicode CLDR](http://cldr.unicode.org/)), ES6 and Promises
 - Support for 190+ languages
 - Runs in the browser and Node.js
 - JSON Structure
@@ -49,27 +54,28 @@ Star this project on [GitHub][github-url].
 
 ```js
 import React from 'react';
-import Translate { LocaleProvider } from 'react-translate-maker';
+import Translate { LocaleProvider, TranslateMaker } from 'react-translate-maker';
 
-const currentLocale = 'en_US';
-const data = {
-  en_US: {
-    hello: 'Hello {$user.name}',
-    followers: `{$user.name} has {$user.followers, plural,
-      zero {no followers}
-      one  {# follower}
-           {# followers}
-    }`
+const translate = new TranslateMaker({
+  data: {
+    en_US: {
+      hello: 'Hello {$user.name}',
+      followers: `{$user.name} has {$user.followers, plural,
+        zero {no followers}
+        one  {# follower}
+             {# followers}
+      }`
+    }
   }
-};
+});
 
 const user = {
   name: 'Zlatko',
-  followers: 15
+  followers: 15,
 };
 
 React.render(
-  <LocaleProvider adapter={data} locale={currentLocale}>
+  <LocaleProvider translate={translate} locale="en_US">
     <Translate path="hello" user={user} tagName="h1"/>
     <Translate path="followers" user={user} />
   </LocaleProvider>
@@ -111,26 +117,29 @@ export default {
 
 ```js
 import React from 'react';
-import Translate { LocaleProvider, Gender, Adapters } from 'react-translate-maker';
+import Translate { LocaleProvider, TranslateMaker, Gender, FileAdapter } from 'react-translate-maker';
 import path from 'path';
 
-const currentLocale = 'en_US';
-const adapter = new Adapters.File({
-  path: path.join(__dirname, '/locales')
+const translate = new TranslateMaker({
+  adapter: new FileAdapter({
+    path: path.join(__dirname, '/locales'),
+  });
 });
+
+const currentLocale = 'en_US';
 
 const user1 = {
   gender: Gender.MALE,
-  name: 'Zlatko'
+  name: 'Zlatko',
 };
 
 const user1 = {
   gender: Gender.FEMALE,
-  name: 'Livia'
+  name: 'Livia',
 };
 
 React.render(
-  <LocaleProvider adapter={adapter} locale={currentLocale}>
+  <LocaleProvider translate={translate} locale={currentLocale}>
     <Translate path="working" user1={user1} user2={user2} />
   </LocaleProvider>
 );
@@ -151,25 +160,28 @@ If you want to use webpack with file adapter you need to use own function getFil
 
 ```js
 import React from 'react';
-import Translate { LocaleProvider, Gender, Adapters } from 'react-translate-maker';
+import Translate { LocaleProvider, TranslateMaker, Gender, FileAdapter } from 'react-translate-maker';
+
+const translate = new TranslateMaker({
+  adapter: new FileAdapter({
+    getFile: (locale, namespace) => require('./locale/' + locale),
+  });
+});
 
 const currentLocale = 'en_US';
-const adapter = new Adapters.File({
-  getFile: (locale, namespace) => require('./locale/' + locale),
-});
 
 const user1 = {
   gender: Gender.MALE,
-  name: 'Zlatko'
+  name: 'Zlatko',
 };
 
 const user1 = {
   gender: Gender.FEMALE,
-  name: 'Livia'
+  name: 'Livia',
 };
 
 React.render(
-  <LocaleProvider adapter={adapter} locale={currentLocale}>
+  <LocaleProvider translate={translate} locale={currentLocale}>
     <Translate path="working" user1={user1} user2={user2} />
   </LocaleProvider>
 );
@@ -181,23 +193,26 @@ You can provide own props. For example style.
 
 ```js
 import React from 'react';
-import Translate { LocaleProvider } from 'react-translate-maker';
+import Translate { LocaleProvider, TranslateMaker } from 'react-translate-maker';
+
+const translate = new TranslateMaker({
+  data: {
+    en_US: {
+      welcome: 'Welcome back',
+    },
+  },
+});
 
 const currentLocale = 'en_US';
-const data = {
-  en_US: {
-    welcome: 'Welcome back'
-  }
-};
 
 const props = {
   style: {
-    color: 'red'
-  }
+    color: 'red',
+  },
 };
 
 React.render(
-  <LocaleProvider adapter={data} locale={currentLocale}>
+  <LocaleProvider translate={translate} locale={currentLocale}>
     <Translate path="welcome" props={props} />
   </LocaleProvider>
 );
@@ -220,8 +235,8 @@ import Translate { LocaleProvider } from 'react-translate-maker';
 const currentLocale = 'en_US';
 const data = {
   en_US: {
-    welcome: 'Welcome back'
-  }
+    welcome: 'Welcome back',
+  },
 };
 
 React.render(
@@ -248,8 +263,8 @@ import Translate { LocaleProvider } from 'react-translate-maker';
 const currentLocale = 'en_US';
 const data = {
   en_US: {
-    welcome: 'Welcome back'
-  }
+    welcome: 'Welcome back',
+  },
 };
 
 React.render(
@@ -294,8 +309,8 @@ MyComponent.contextTypes = {
 const currentLocale = 'en_US';
 const data = {
   en_US: {
-    inputSearch: 'Search'
-  }
+    inputSearch: 'Search',
+  },
 };
 
 React.render(
@@ -331,8 +346,8 @@ class MyComponent extends Component {
 const currentLocale = 'en_US';
 const data = {
   en_US: {
-    inputSearch: 'Search'
-  }
+    inputSearch: 'Search',
+  },
 };
 
 React.render(
@@ -364,11 +379,11 @@ const data = {
         title: 'MyProject',
         button: {
          login: 'Log In',
-         signup: 'Sign Up'
-        }
-      }
-    }
-  }
+         signup: 'Sign Up',
+        },
+      },
+    },
+  },
 };
 
 React.render(
@@ -399,11 +414,11 @@ const data = {
         title: 'MyProject',
         button: {
          login: 'Log In',
-         signup: 'Sign Up'
-        }
-      }
-    }
-  }
+         signup: 'Sign Up',
+        },
+      },
+    },
+  },
 };
 
 React.render(
@@ -434,12 +449,12 @@ import { LocaleProvider, TranslateHTML } from 'react-translate-maker';
 const currentLocale = 'en_US';
 const data = {
   en_US: {
-    welcome: 'Welcome back <b>{$user.name}</b>. How is it going?'
-  }
+    welcome: 'Welcome back <b>{$user.name}</b>. How is it going?',
+  },
 };
 
 const user = {
-  name: 'Zlatko'
+  name: 'Zlatko',
 };
 
 React.render(
@@ -469,24 +484,24 @@ const data = {
     language: 'Language',
     button: {
      login: 'Log In',
-     signup: 'Sign Up'
-    }
+     signup: 'Sign Up',
+    },
   },
   sk_SK: {
     language: 'Jazyk',
     button: {
      login: 'Prihlasit sa',
-     signup: 'Odhlasit sa'
-    }
-  }
+     signup: 'Odhlasit sa',
+    },
+  },
 };
 
 const locales = [{
   label: 'English',
-  value: 'en_US'
+  value: 'en_US',
 }, {
   label: 'Slovenčina',
-  value: 'sk_SK'
+  value: 'sk_SK',
 }];
 
 const DEFAULT_LOCALE = 'en_US';
@@ -496,13 +511,13 @@ class App extends Component {
     super(props, context);
 
     this.state = {
-      locale: DEFAULT_LOCALE
+      locale: DEFAULT_LOCALE,
     };
   }
 
   handleLocaleChange(locale) {
     this.setState({
-      locale: locale
+      locale: locale,
     });
   }
 
@@ -543,24 +558,24 @@ const data = {
     language: 'Language',
     button: {
      login: 'Log In',
-     signup: 'Sign Up'
-    }
+     signup: 'Sign Up',
+    },
   },
   sk_SK: {
     language: 'Jazyk',
     button: {
      login: 'Prihlasit sa',
-     signup: 'Odhlasit sa'
-    }
-  }
+     signup: 'Odhlasit sa',
+    },
+  },
 };
 
 const locales = [{
   label: 'English',
-  value: 'en_US'
+  value: 'en_US',
 }, {
   label: 'Slovenčina',
-  value: 'sk_SK'
+  value: 'sk_SK',
 }];
 
 const DEFAULT_LOCALE = 'en_US';
@@ -594,7 +609,8 @@ The main difference is that you are not able to change locale of the LocaleProvi
 
 #### Properties of the LocaleSwitch
 
- - **onChange** (function): Callback witch a new locale
+ - **onChange** (function): Callback witch a new locale (immediate change)
+ - **onLocaleChange** (function): Callback witch a new locale (after success change)
  - **setLocale** (Boolean): It will set locale automatically in the translate-maker after change (default: true)
  - **locales** (array): Array of the available locales. [{ label: 'English', value: 'en_US' }]
  - all properties of the standard select component
@@ -611,18 +627,18 @@ import Translate, { LocaleProvider } from 'react-translate-maker';
 const currentLocale = 'en_US';
 const data = {
   en_US: {
-    welcome: 'Welcome {$user.name | star}'
-  }
+    welcome: 'Welcome {$user.name | star}',
+  },
 };
 
 const filters = {
   star: function star(value) {
     return '*** ' + value + ' ***';
-  }
+  },
 };
 
 const user = {
-  name: 'Zlatko'
+  name: 'Zlatko',
 };
 
 React.render(

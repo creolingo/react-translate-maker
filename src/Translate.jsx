@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { renderToStaticMarkup } from 'react/lib/ReactDOMServer';
+import { renderToStaticMarkup } from 'react-dom/server';
 import forEach from 'lodash/forEach';
 import { isElement } from 'react-addons-test-utils';
 import LocaleProvider from './LocaleProvider';
@@ -16,9 +16,12 @@ export function prepareProps(props, localeProvider) {
     }
 
     changed = true;
-    newProps[key] = renderToStaticMarkup(
-      <LocaleProvider {...localeProvider.props} children={value} />
-    );
+    const { children, locale, ...rest } = localeProvider.props;
+    newProps[key] = renderToStaticMarkup((
+      <LocaleProvider {...rest}>
+        {value}
+      </LocaleProvider>
+    ));
   });
 
   return changed ? newProps : props;

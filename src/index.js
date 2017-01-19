@@ -1,12 +1,20 @@
-import TranslateMaker, { Plural, Gender, Mode, Adapters, Caches } from 'translate-maker';
-import LocaleProvider from './LocaleProvider';
-import Translate from './Translate';
-import Namespace from './Namespace';
-import TranslateHTML from './TranslateHTML';
-import LocaleSwitch from './LocaleSwitch';
-import provideTranslations from './provideTranslations';
+export TranslateMaker, {
+  Plural,
+  Gender,
+  Mode,
+  Adapter,
+  MemoryAdapter,
+  XHRAdapter,
+  FileAdapter,
+  Cache,
+  DummyCache,
+  MemoryCache,
+} from 'translate-maker';
+export LocaleProvider from './LocaleProvider';
+export Translate from './Translate';
+export Namespace from './Namespace';
+export TranslateHTML from './TranslateHTML';
+export LocaleSwitch from './LocaleSwitch';
+export provideTranslations from './provideTranslations';
 
-export { LocaleProvider, TranslateHTML, Namespace, LocaleSwitch, provideTranslations };
-export { Plural, Gender, Mode, Adapters, Caches, Translate, TranslateMaker };
-
-export default Translate;
+export default from './Translate';
