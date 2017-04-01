@@ -1,8 +1,23 @@
 import React, { Component, PropTypes } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import forEach from 'lodash/forEach';
-import { isElement } from 'react-addons-test-utils';
+// import { isElement } from 'react-addons-test-utils';
 import LocaleProvider from './LocaleProvider';
+
+function isElement(obj) {
+  if (!obj) {
+    return false;
+  }
+
+  if (obj instanceof Component) {
+    return true;
+  }
+
+  return typeof obj === 'object' &&
+    obj !== null &&
+    obj.$$typeof &&
+    obj.$$typeof.toString() === 'Symbol(react.element)';
+}
 
 export function prepareProps(props, localeProvider) {
   const newProps = {};
