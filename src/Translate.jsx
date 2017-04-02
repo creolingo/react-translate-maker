@@ -1,30 +1,14 @@
-import React, { Component, PropTypes } from 'react';
-import { renderToStaticMarkup } from 'react-dom/server';
+import React, { isValidElement, Component, PropTypes } from 'react';
+import { renderToString } from 'react-dom/server';
 import forEach from 'lodash/forEach';
-// import { isElement } from 'react-addons-test-utils';
 import LocaleProvider from './LocaleProvider';
-
-function isElement(obj) {
-  if (!obj) {
-    return false;
-  }
-
-  if (obj instanceof Component) {
-    return true;
-  }
-
-  return typeof obj === 'object' &&
-    obj !== null &&
-    obj.$$typeof &&
-    obj.$$typeof.toString() === 'Symbol(react.element)';
-}
 
 export function prepareProps(props, localeProvider) {
   const newProps = {};
   let changed = false;
 
   forEach(props, (value, key) => {
-    const isReactElement = isElement(value);
+    const isReactElement = isValidElement(value);
     if (!isReactElement) {
       newProps[key] = value;
       return;
@@ -32,7 +16,7 @@ export function prepareProps(props, localeProvider) {
 
     changed = true;
     const { children, locale, ...rest } = localeProvider.props;
-    newProps[key] = renderToStaticMarkup((
+    newProps[key] = renderToString((
       <LocaleProvider {...rest}>
         {value}
       </LocaleProvider>
