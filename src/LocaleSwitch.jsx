@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-import { autobind } from 'core-decorators';
 import LocaleProvider from './LocaleProvider';
 
 export default class LocaleSwitch extends Component {
@@ -22,8 +21,7 @@ export default class LocaleSwitch extends Component {
     onError: PropTypes.func,
   };
 
-  @autobind
-  async onChange(evn) {
+  onChange = async (evn) => {
     evn.stopPropagation();
 
     const { locales, onChange, onError, setLocale, onLocaleChange } = this.props;

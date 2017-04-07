@@ -1,6 +1,6 @@
 {
   "name": "react-translate-maker",
-  "version": "0.4.7",
+  "version": "0.4.8",
   "description": "React translation module. Internationalize your great project.",
   "main": "dist/index.js",
   "keywords": [
@@ -48,7 +48,6 @@
   },
   "homepage": "https://github.com/CherryProjects/react-translate-maker",
   "dependencies": {
-    "core-decorators": "^0.15.0",
     "lodash": "^4.17.4",
     "react-provide-props": "^2.0.3",
     "react-addons-test-utils": "^15.4.2"
