@@ -1,8 +1,8 @@
 language: node_js
 node_js:
-    - "4"
     - "5"
     - "6"
+    - "7"
 script: npm test
 notifications:
     email:
@@ -10,6 +10,3 @@ notifications:
             - zlatkofedor@cherrysro.com
         on_success: change
         on_failure: always
-
-after_script:
- - ./node_modules/.bin/babel-node ./node_modules/.bin/gulp coveralls

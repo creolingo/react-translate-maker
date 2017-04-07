@@ -1,8 +1,8 @@
 {
   "name": "react-translate-maker",
-  "version": "0.4.8",
+  "version": "0.5.1",
   "description": "React translation module. Internationalize your great project.",
-  "main": "dist/index.js",
+  "main": "lib/index.js",
   "keywords": [
     "translate",
     "translation",
@@ -21,12 +21,6 @@
     "interpolation",
     "interpolate",
     "plural"
-  ],
-  "files": [
-    "dist/",
-    "package.json",
-    "README.md",
-    "LICENSE"
   ],
   "scripts": {
     "prepublish": "npm run build",
@@ -49,8 +43,7 @@
   "homepage": "https://github.com/CherryProjects/react-translate-maker",
   "dependencies": {
     "lodash": "^4.17.4",
-    "react-provide-props": "^2.0.3",
-    "react-addons-test-utils": "^15.4.2"
+    "react-provide-props": "^2.0.3"
   },
   "devDependencies": {
     "babel-cli": "^6.24.0",
@@ -81,7 +74,8 @@
     "jest": "^19.0.2",
     "jest-cli": "^19.0.2",
     "enzyme": "^2.8.0",
-    "translate-maker": "^0.5.10"
+    "translate-maker": "^0.5.10",
+    "react-addons-test-utils": "^15.4.2"
   },
   "peerDependencies": {
     "react": "15.x",
