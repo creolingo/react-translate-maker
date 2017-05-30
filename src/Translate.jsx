@@ -1,4 +1,5 @@
-import React, { isValidElement, Component, PropTypes } from 'react';
+import React, { isValidElement, Component } from 'react';
+import PropTypes from 'prop-types';
 import { renderToStaticMarkup } from 'react-dom/server';
 import forEach from 'lodash/forEach';
 import LocaleProvider from './LocaleProvider';

@@ -1,6 +1,6 @@
 {
   "name": "react-translate-maker",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "description": "React translation module. Internationalize your great project.",
   "main": "lib/index.js",
   "keywords": [
