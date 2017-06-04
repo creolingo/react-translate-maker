@@ -1,8 +1,9 @@
 {
   "name": "react-translate-maker",
-  "version": "0.5.3",
+  "version": "0.5.4",
   "description": "React translation module. Internationalize your great project.",
   "main": "lib/index.js",
+  "esnext": "./src/index.js",
   "keywords": [
     "translate",
     "translation",
