@@ -1,6 +1,6 @@
 import { Component, Children } from 'react';
 import PropTypes from 'prop-types';
-import Translate from 'translate-maker/lib/Translate';
+import Translate from 'translate-maker';
 
 export default class LocaleProvider extends Component {
   static propTypes = {
