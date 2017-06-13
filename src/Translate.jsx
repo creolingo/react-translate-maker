@@ -41,10 +41,17 @@ export default class Translate extends Component {
     className: PropTypes.string,
     params: PropTypes.object,
     props: PropTypes.object,
+    children: PropTypes.node,
   };
 
   static defaultProps = {
     tagName: 'span',
+    defaultValue: undefined,
+    description: undefined,
+    className: undefined,
+    params: undefined,
+    props: undefined,
+    children: undefined,
   };
 
   getPath() {
@@ -64,7 +71,14 @@ export default class Translate extends Component {
 
 
   render() {
-    const { tagName, params, defaultValue, className, props = {} } = this.props;
+    const {
+      tagName,
+      params,
+      children,
+      defaultValue = children,
+      className,
+      props = {},
+    } = this.props;
 
     const path = this.getPath();
 
