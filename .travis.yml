@@ -3,10 +3,11 @@ node_js:
     - "5"
     - "6"
     - "7"
+    - "8"
 script: npm test
 notifications:
     email:
         recipients:
-            - zlatkofedor@cherrysro.com
+            - zlatkofedor@cherryprojects.com
         on_success: change
         on_failure: always

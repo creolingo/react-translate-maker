@@ -1,4 +1,4 @@
-import React, { Component, createElement } from 'react';
+import { Component, createElement } from 'react';
 import PropTypes from 'prop-types';
 import LocaleProvider from './LocaleProvider';
 import { prepareProps } from './Translate';
@@ -17,7 +17,14 @@ export default class TranslateHTML extends Component {
     className: PropTypes.string,
     params: PropTypes.object,
     props: PropTypes.object,
-    children: PropTypes.node,
+  };
+
+  static defaultProps = {
+    defaultValue: undefined,
+    description: undefined,
+    className: undefined,
+    params: undefined,
+    props: undefined,
   };
 
   static defaultProps = {
