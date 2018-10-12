@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import TranslateMaker from 'translate-maker';
+import { mount } from 'enzyme';
 import Translate, {
-  provideTranslations,
+  ProvideTranslate,
   LocaleProvider,
-  TranslateHTML,
   Namespace,
   LocaleSwitch,
 } from '../src';
-import { shallow, mount, render } from 'enzyme';
 
 describe('Translate', () => {
   it('should be able to create simple instance', async () => {
@@ -27,7 +26,7 @@ describe('Translate', () => {
       </LocaleProvider>
     );
 
-    expect(wrapper.html()).toBe('<span>Test response</span>');
+    expect(wrapper.html()).toBe('Test response<');
   });
 
   it('should be able to create simple instance with default value', () => {
@@ -37,7 +36,7 @@ describe('Translate', () => {
       </LocaleProvider>
     );
 
-    expect(wrapper.html()).toBe('<span>Default value</span>');
+    expect(wrapper.html()).toBe('Default value');
   });
 
   it('should be able to create simple instance with default value as children', () => {
@@ -49,7 +48,7 @@ describe('Translate', () => {
       </LocaleProvider>
     );
 
-    expect(wrapper.html()).toBe('<span>Default value</span>');
+    expect(wrapper.html()).toBe('Default value');
   });
 
   it('should be able to create element h1', async () => {
@@ -65,7 +64,7 @@ describe('Translate', () => {
 
     const wrapper = mount(
       <LocaleProvider locale="sk_SK" translate={translate}>
-        <Translate path="test" defaultValue="Default value" tagName="h1" />
+        <h1><Translate path="test" defaultValue="Default value" /></h1>
       </LocaleProvider>
     );
 
@@ -89,7 +88,7 @@ describe('Translate', () => {
       </LocaleProvider>
     );
 
-    expect(wrapper.html()).toBe('<span>Hello Zlatko</span>');
+    expect(wrapper.html()).toBe('Hello Zlatko');
   });
 
   it('should be able to use plurals inside translation', async () => {
@@ -113,7 +112,7 @@ describe('Translate', () => {
       </LocaleProvider>
     );
 
-    expect(wrapper.html()).toBe('<span>Zlatko has no followers</span>');
+    expect(wrapper.html()).toBe('Zlatko has no followers');
   });
 
   it('should be able to use params instead of props', async () => {
@@ -137,31 +136,7 @@ describe('Translate', () => {
       </LocaleProvider>
     );
 
-    expect(wrapper.html()).toBe('<span>Hello Zlatko</span>');
-  });
-
-  it('should be able to use props for custom element', async () => {
-    const translate = new TranslateMaker({
-      data: {
-        sk_SK: {
-          hello: 'Hello {$className}',
-        },
-      },
-    });
-
-    await translate.setLocale('sk_SK');
-
-    const props = {
-      className: 'testik'
-    };
-
-    const wrapper = mount(
-      <LocaleProvider locale="sk_SK" translate={translate}>
-        <Translate path="hello" className="Zlatko" props={props} />
-      </LocaleProvider>
-    );
-
-    expect(wrapper.html()).toBe('<span class="testik">Hello Zlatko</span>');
+    expect(wrapper.html()).toBe('Hello Zlatko');
   });
 
   it('should be able to use html content', async () => {
@@ -177,7 +152,7 @@ describe('Translate', () => {
 
     const wrapper = mount(
       <LocaleProvider locale="sk_SK" translate={translate}>
-        <TranslateHTML path="hello" name="Zlatko" />
+        <Translate path="hello" name="Zlatko" html />
       </LocaleProvider>
     );
 
@@ -204,7 +179,7 @@ describe('Translate', () => {
       </LocaleProvider>
     );
 
-    expect(wrapper.html()).toBe('<span>Hello *** Zlatko ***</span>');
+    expect(wrapper.html()).toBe('Hello *** Zlatko ***');
   });
 
   it('should be able to use namespace', async () => {
@@ -228,7 +203,7 @@ describe('Translate', () => {
       </LocaleProvider>
     );
 
-    expect(wrapper.html()).toBe('<span>Test response</span>');
+    expect(wrapper.html()).toBe('Test response');
   });
 
   it('should be able to change namespace', async () => {
@@ -256,10 +231,10 @@ describe('Translate', () => {
     );
 
     const wrapper = mount(<Main namespace="namespace1" />);
-    expect(wrapper.html()).toBe('<span>Test response</span>');
+    expect(wrapper.html()).toBe('Test response');
 
     wrapper.setProps({ namespace: 'namespace2'});
-    expect(wrapper.html()).toBe('<span>Test response2</span>');
+    expect(wrapper.html()).toBe('Test response2');
   });
 
   it('should be able to use namespace inside namespace', async () => {
@@ -287,7 +262,7 @@ describe('Translate', () => {
       </LocaleProvider>
     );
 
-    expect(wrapper.html()).toBe('<span>Test response</span>');
+    expect(wrapper.html()).toBe('Test response');
   });
 
   it('should be able to use namespace inside namespace with replace', async () => {
@@ -313,7 +288,7 @@ describe('Translate', () => {
       </LocaleProvider>
     );
 
-    expect(wrapper.html()).toBe('<span>Test response</span>');
+    expect(wrapper.html()).toBe('Test response');
   });
 
   it('should be able to use LocaleSwitch as uncontrolled component', async () => {
@@ -341,7 +316,7 @@ describe('Translate', () => {
     const wrapper = mount(
       <LocaleProvider locale="sk_SK" translate={translate} controlled={false}>
         <div>
-          <Translate path="test" />
+          <span><Translate path="test" /></span>
           <LocaleSwitch locales={locales} onError={(err) => {
             throw err;
           }}/>
@@ -388,7 +363,7 @@ describe('Translate', () => {
       const Main = ({ locale }) => (
         <LocaleProvider locale={locale} translate={translate} controlled={false}>
           <div>
-            <Translate path="test" />
+            <span><Translate path="test" /></span>
             <LocaleSwitch
               setLocale
               locales={locales}
@@ -419,18 +394,19 @@ describe('Translate', () => {
 
     await translate.setLocale('sk_SK');
 
-    @provideTranslations
     class Test extends Component {
       render () {
         return (
-          <div>{this.props.t('test')}</div>
+          <div>{this.props.translate('test')}</div>
         );
       }
     }
 
     const wrapper = mount(
       <LocaleProvider locale="sk_SK" translate={translate}>
-        <Test />
+        <ProvideTranslate>
+          {t => <Test translate={t} />}
+        </ProvideTranslate>
       </LocaleProvider>
     );
 
@@ -450,7 +426,7 @@ describe('Translate', () => {
 
     const wrapper = mount((
       <LocaleProvider locale="sk_SK" translate={translate}>
-        <TranslateHTML path="test" link={<a>Asdf</a>} />
+        <Translate path="test" link={<a>Asdf</a>} html />
       </LocaleProvider>
     ));
 
@@ -471,7 +447,7 @@ describe('Translate', () => {
 
     const wrapper = mount((
       <LocaleProvider locale="sk_SK" translate={translate}>
-        <TranslateHTML path="test" link={<a>Asdf <Translate path="inner" /></a>} />
+        <Translate path="test" link={<a>Asdf <Translate path="inner" /></a>} html />
       </LocaleProvider>
     ));
 
@@ -494,7 +470,7 @@ describe('Translate', () => {
     const wrapper = mount((
       <LocaleProvider locale="sk_SK" namespace="namespace" translate={translate}>
         <Namespace path="namespace">
-          <TranslateHTML path="test" />
+          <Translate path="test" html />
         </Namespace>
       </LocaleProvider>
     ));

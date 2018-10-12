@@ -1,35 +1,24 @@
-import { Component, Children } from 'react';
-import PropTypes from 'prop-types';
+// @flow
+import React, { forwardRef, createContext, Component, type Node } from 'react';
 
-export default class LocaleProvider extends Component {
-  static propTypes = {
-    path: PropTypes.string,
-    compose: PropTypes.bool,
-    children: PropTypes.node,
-  };
+export const NamespaceContext = createContext();
 
-  static childContextTypes = {
-    namespace: PropTypes.object.isRequired,
-  };
+type Props = {
+  path?: string,
+  compose?: boolean,
+  children: Node,
+  namespace?: Node,
+};
 
-  static contextTypes = {
-    namespace: PropTypes.object,
-  };
-
-  getChildContext() {
-    return {
-      namespace: this,
-    };
-  }
-
+class Namespace extends Component<Props> {
   getPath() {
-    const { path, compose } = this.props;
+    const { path, compose, namespace } = this.props;
     if (!compose || !path) {
       return path;
     }
 
-    if (this.context.namespace) {
-      const parentPath = this.context.namespace.getPath();
+    if (namespace) {
+      const parentPath = namespace.getPath();
       if (parentPath) {
         return `${parentPath}.${path}`;
       }
@@ -39,6 +28,24 @@ export default class LocaleProvider extends Component {
   }
 
   render() {
-    return Children.only(this.props.children);
+    const { children } = this.props;
+
+    return (
+      <NamespaceContext.Provider value={this}>
+        {children}
+      </NamespaceContext.Provider>
+    );
   }
 }
+
+export default forwardRef((props, ref) => (
+  <NamespaceContext.Consumer>
+    {namespace => (
+      <Namespace
+        {...props}
+        namespace={namespace}
+        ref={ref}
+      />
+    )}
+  </NamespaceContext.Consumer>
+));

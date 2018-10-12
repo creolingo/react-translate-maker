@@ -1,83 +1,48 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import LocaleProvider from './LocaleProvider';
+// @flow
+import React, { forwardRef, Component, type Node } from 'react';
+import { LocaleProviderContext } from './LocaleProvider';
 
-export default class LocaleSwitch extends Component {
-  static contextTypes = {
-    ...LocaleProvider.childContextTypes,
-  };
+type Props = {
+  localeProvider: Node,
+  onError?: Function,
+  children: Function,
+};
 
+class LocaleSwitch extends Component<Props> {
   static defaultProps = {
-    setLocale: true,
+    onError: undefined,
   };
 
-  static propTypes = {
-    locales: PropTypes.array.isRequired,
-    setLocale: PropTypes.bool,
-    disabled: PropTypes.bool,
-    name: PropTypes.string,
-    className: PropTypes.string,
-    onChange: PropTypes.func,
-    onLocaleChange: PropTypes.func,
-    onError: PropTypes.func,
-  };
+  handleChange = async (locale: string) => {
+    const { onError, localeProvider } = this.props;
 
-  onChange = async (evn) => {
-    evn.stopPropagation();
-
-    const { locales, onChange, onError, setLocale, onLocaleChange } = this.props;
-    const translate = this.context.translate;
-
-    const value = evn.target.value;
-    const exists = locales.find(l => l.locale === value);
-    if (!exists) {
-      return;
-    }
-
-    if (setLocale && !translate.props.controlled) {
-      try {
-        await translate.setLocale(value);
-        if (onLocaleChange) {
-          onLocaleChange(value);
-        }
-      } catch (e) {
-        if (onError) {
-          onError(e);
-          return;
-        }
+    try {
+      await localeProvider.setLocale(locale);
+    } catch (e) {
+      if (onError) {
+        onError(e);
       }
-    }
-
-    if (onChange) {
-      onChange(value);
     }
   }
 
   render() {
-    const translate = this.context.translate;
-    const locale = translate.getLocale();
-    const { locales } = this.props;
+    const { children, localeProvider } = this.props;
 
-    const selectProps = {
-      ...this.props,
-    };
-
-    delete selectProps.setLocale;
-    delete selectProps.locales;
-    delete selectProps.onLocaleChange;
-
-    return (
-      <select
-        {...selectProps}
-        value={locale}
-        onChange={this.onChange}
-      >
-        {locales.map((option, pos) => (
-          <option value={option.locale} key={pos}>
-            {option.label}
-          </option>
-        ))}
-      </select>
-    );
+    return children({
+      locale: localeProvider.getLocale(),
+      onChange: this.handleChange,
+    });
   }
 }
+
+export default forwardRef((props, ref) => (
+  <LocaleProviderContext.Consumer>
+    {localeProvider => (
+      <LocaleSwitch
+        {...props}
+        localeProvider={localeProvider}
+        ref={ref}
+      />
+    )}
+  </LocaleProviderContext.Consumer>
+));

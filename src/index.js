@@ -1,8 +1,7 @@
-export LocaleProvider from './LocaleProvider';
+export LocaleProvider, { LocaleProviderContext } from './LocaleProvider';
 export Translate from './Translate';
-export Namespace from './Namespace';
-export TranslateHTML from './TranslateHTML';
+export Namespace, { NamespaceContext } from './Namespace';
 export LocaleSwitch from './LocaleSwitch';
-export provideTranslations from './provideTranslations';
+export ProvideTranslate from './ProvideTranslate';
 
 export default from './Translate';

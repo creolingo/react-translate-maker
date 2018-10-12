@@ -76,8 +76,10 @@ const user = {
 
 React.render(
   <LocaleProvider translate={translate} locale="en_US">
-    <Translate path="hello" user={user} tagName="h1"/>
-    <Translate path="followers" user={user} />
+    <div>
+      <h1><Translate path="hello" user={user} /></h1>
+      <Translate path="followers" user={user} />
+    </div>
   </LocaleProvider>
 );
 ```
@@ -86,8 +88,10 @@ The result will be
 
 
 ```html
-<h1>Hello Zlatko</h1>
-<span>Zlatko has 15 followers</span>
+<div>
+  <h1>Hello Zlatko</h1>
+  Zlatko has 15 followers
+</div>
 ```
 
 ### File adapter
@@ -149,7 +153,7 @@ The result will be
 
 
 ```html
-<span>Boy Zlatko is working with girl Livia</span>
+Boy Zlatko is working with girl Livia
 ```
 
 ### File adapter and webpack
@@ -187,124 +191,11 @@ React.render(
 );
 ```
 
-### Custom props for component
-
-You can provide own props. For example style.
-
-```js
-import React from 'react';
-import Translate { LocaleProvider, TranslateMaker } from 'react-translate-maker';
-
-const translate = new TranslateMaker({
-  data: {
-    en_US: {
-      welcome: 'Welcome back',
-    },
-  },
-});
-
-const currentLocale = 'en_US';
-
-const props = {
-  style: {
-    color: 'red',
-  },
-};
-
-React.render(
-  <LocaleProvider translate={translate} locale={currentLocale}>
-    <Translate path="welcome" props={props} />
-  </LocaleProvider>
-);
-```
-
-The result will be
-
-```html
-<span style="color: red;">Welcome back</span>
-```
-
-### Property className
-
-If you want to change only className you can do that directly. This option is available only for className property because all properties are used as arguments for the translation.
-
-```js
-import React from 'react';
-import Translate { LocaleProvider } from 'react-translate-maker';
-
-const currentLocale = 'en_US';
-const data = {
-  en_US: {
-    welcome: 'Welcome back',
-  },
-};
-
-React.render(
-  <LocaleProvider adapter={data} locale={currentLocale}>
-    <Translate path="welcome" className="small" />
-  </LocaleProvider>
-);
-```
-
-The result will be
-
-```html
-<span class="small">Welcome back</span>
-```
-
-### Tag name
-
-You can change span to other tag. For this purpose there is a property named tagName.
-
-```js
-import React from 'react';
-import Translate { LocaleProvider } from 'react-translate-maker';
-
-const currentLocale = 'en_US';
-const data = {
-  en_US: {
-    welcome: 'Welcome back',
-  },
-};
-
-React.render(
-  <LocaleProvider adapter={data} locale={currentLocale}>
-    <Translate path="welcome" tagName="h1" />
-  </LocaleProvider>
-);
-```
-
-The result will be
-
-```html
-<h1>Welcome back</h1>
-```
-
 ### Placeholder and direct translations
-
-If you want to use translation function directly in your component. You can do that with the "t" function. This function has same arguments like the original "get" function from the translate-maker.
-
-```js
-t(path, args, defaultValue) || t(path, defaultValue)
-```
 
 ```js
 import React, { Component } from 'react';
-import { LocaleProvider } from 'react-translate-maker';
-
-class MyComponent extends Component {
-  render() {
-    const t = this.context.t;
-
-    return (
-      <input type="text" placeholder={t('inputSearch', 'Search...')} />
-    );
-  }
-}
-
-MyComponent.contextTypes = {
-  t: PropTypes.func.isRequired,
-};
+import Translate, { LocaleProvider } from 'react-translate-maker';
 
 const currentLocale = 'en_US';
 const data = {
@@ -315,7 +206,11 @@ const data = {
 
 React.render(
   <LocaleProvider adapter={data} locale={currentLocale}>
-    <MyComponent />
+    <Translate path="inputSearch" defaultValue="Search...">
+      {placeholder => (
+        <input type="text" placeholder={placeholder} />
+      )}
+    </Translate>
   </LocaleProvider>
 );
 ```
@@ -326,19 +221,18 @@ The result will be
 <input type="text" placeholder="Search" />
 ```
 
-### Direct translations with ES7 decorator
+### Direct translations
 
 ```js
 import React, { Component } from 'react';
-import { LocaleProvider, provideTranslations } from 'react-translate-maker';
+import { LocaleProvider, ProvideTranslate } from 'react-translate-maker';
 
-@provideTranslations
 class MyComponent extends Component {
   render() {
-    const t = this.props.t;
+    const { translate } = this.props;
 
     return (
-      <input type="text" placeholder={t('inputSearch', 'Search...')} />
+      <input type="text" placeholder={translate('inputSearch', 'Search...')} />
     );
   }
 }
@@ -352,7 +246,11 @@ const data = {
 
 React.render(
   <LocaleProvider adapter={data} locale={currentLocale}>
-    <MyComponent />
+    <ProvideTranslate>
+      {translate => (
+        <MyComponent translate={translate} />
+      )}
+    </T>
   </LocaleProvider>
 );
 ```
@@ -378,8 +276,8 @@ const data = {
       navigation: {
         title: 'MyProject',
         button: {
-         login: 'Log In',
-         signup: 'Sign Up',
+          login: 'Log In',
+          signup: 'Sign Up',
         },
       },
     },
@@ -413,8 +311,8 @@ const data = {
       navigation: {
         title: 'MyProject',
         button: {
-         login: 'Log In',
-         signup: 'Sign Up',
+          login: 'Log In',
+          signup: 'Sign Up',
         },
       },
     },
@@ -444,7 +342,7 @@ Sometimes you need to provide HTML content.
 
 ```js
 import React from 'react';
-import { LocaleProvider, TranslateHTML } from 'react-translate-maker';
+import { LocaleProvider, Translate } from 'react-translate-maker';
 
 const currentLocale = 'en_US';
 const data = {
@@ -459,7 +357,7 @@ const user = {
 
 React.render(
   <LocaleProvider adapter={data} locale={currentLocale}>
-    <TranslateHTML path="welcome" user={user} />
+    <Translate path="welcome" user={user} html />
   </LocaleProvider>
 );
 ```
@@ -483,15 +381,15 @@ const data = {
   en_US: {
     language: 'Language',
     button: {
-     login: 'Log In',
-     signup: 'Sign Up',
+      login: 'Log In',
+      signup: 'Sign Up',
     },
   },
   sk_SK: {
     language: 'Jazyk',
     button: {
-     login: 'Prihlasit sa',
-     signup: 'Odhlasit sa',
+      login: 'Prihlasit sa',
+      signup: 'Odhlasit sa',
     },
   },
 };
@@ -557,15 +455,15 @@ const data = {
   en_US: {
     language: 'Language',
     button: {
-     login: 'Log In',
-     signup: 'Sign Up',
+      login: 'Log In',
+      signup: 'Sign Up',
     },
   },
   sk_SK: {
     language: 'Jazyk',
     button: {
-     login: 'Prihlasit sa',
-     signup: 'Odhlasit sa',
+      login: 'Prihlasit sa',
+      signup: 'Odhlasit sa',
     },
   },
 };

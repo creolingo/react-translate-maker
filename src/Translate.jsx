@@ -1,69 +1,61 @@
-import React, { isValidElement, Component } from 'react';
-import PropTypes from 'prop-types';
+// @flow
+import React, { forwardRef, isValidElement, Component, type Node } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
-import forEach from 'lodash/forEach';
-import LocaleProvider from './LocaleProvider';
+import LocaleProvider, { LocaleProviderContext } from './LocaleProvider';
+import { NamespaceContext } from './Namespace';
 
-export function prepareProps(props, localeProvider) {
-  const newProps = {};
+type Props = {
+  path: string,
+  $namespace?: Node,
+  $localeProvider: Node,
+  defaultValue?: string,
+  params?: Object,
+  children?: Function | string,
+  html?: boolean,
+};
+
+export function prepareParams(params: Object, localeProvider: Node) {
+  const newParams = {};
   let changed = false;
 
-  forEach(props, (value, key) => {
+  Object.keys(params).forEach((key) => {
+    const value = params[key];
     const isReactElement = isValidElement(value);
     if (!isReactElement) {
-      newProps[key] = value;
-      return;
-    }
+      newParams[key] = value;
+    } else {
+      changed = true;
 
-    changed = true;
-    const { children, locale, ...rest } = localeProvider.props;
-    newProps[key] = renderToStaticMarkup((
-      <LocaleProvider {...rest}>
-        {value}
-      </LocaleProvider>
-    ));
+      const { children, locale, ...rest } = localeProvider.props;
+
+      newParams[key] = renderToStaticMarkup((
+        <LocaleProvider {...rest}>
+          {value}
+        </LocaleProvider>
+      ));
+    }
   });
 
-  return changed ? newProps : props;
+  return changed ? newParams : params;
 }
 
-export default class Translate extends Component {
-  static contextTypes = {
-    ...LocaleProvider.childContextTypes,
-    namespace: PropTypes.object,
-  };
-
-  static propTypes = {
-    path: PropTypes.string.isRequired,
-    tagName: PropTypes.string.isRequired,
-    defaultValue: PropTypes.string,
-    description: PropTypes.string,
-    className: PropTypes.string,
-    params: PropTypes.object,
-    props: PropTypes.object,
-    children: PropTypes.node,
-    render: PropTypes.func,
-  };
-
+class Translate extends Component<Props> {
   static defaultProps = {
-    tagName: 'span',
     defaultValue: undefined,
     description: undefined,
-    className: undefined,
     params: undefined,
-    props: undefined,
     children: undefined,
-    render: undefined,
+    namespace: undefined,
+    html: false,
   };
 
   getPath() {
-    const { path } = this.props;
-    const { namespace } = this.context;
-    if (!namespace) {
+    const { path, $namespace } = this.props;
+    if (!$namespace) {
       return path;
     }
 
-    const parentPath = namespace.getPath();
+    const parentPath = $namespace.getPath();
     if (!parentPath) {
       return path;
     }
@@ -71,36 +63,56 @@ export default class Translate extends Component {
     return `${parentPath}.${path}`;
   }
 
-
   render() {
     const {
-      tagName,
+      path,
+      $namespace,
+      $localeProvider,
+      defaultValue,
       params,
       children,
-      defaultValue = children,
-      className,
-      render,
-      props = {},
+      html,
+      ...rest
     } = this.props;
 
-    const path = this.getPath();
+    const updatedDefaultValue = !defaultValue && typeof children !== 'function'
+      ? children
+      : defaultValue;
 
-    const { translate } = this.context;
+    const updatedParams = prepareParams(params || rest, $localeProvider);
+    const text = $localeProvider.get(this.getPath(), updatedParams, updatedDefaultValue);
 
-    const currentProps = params || this.props;
-    const updatedProps = prepareProps(currentProps, translate);
-    const text = translate.get(path, updatedProps, defaultValue);
-
-    if (typeof render === 'function') {
-      return render({ text });
-    } else if (typeof children === 'function') {
-      return children({ text });
+    if (typeof children === 'function') {
+      return children(text);
     }
 
-    if (className && !props.className) {
-      props.className = className;
+    if (html) {
+      return (
+        <span
+          dangerouslySetInnerHTML={{
+            __html: text,
+          }}
+        />
+      );
     }
 
-    return React.createElement(tagName, props, text);
+    return text;
   }
 }
+
+export default forwardRef((props, ref) => (
+  <LocaleProviderContext.Consumer>
+    {localeProvider => (
+      <NamespaceContext.Consumer>
+        {namespace => (
+          <Translate
+            {...props}
+            $localeProvider={localeProvider}
+            $namespace={namespace}
+            ref={ref}
+          />
+        )}
+      </NamespaceContext.Consumer>
+    )}
+  </LocaleProviderContext.Consumer>
+));
