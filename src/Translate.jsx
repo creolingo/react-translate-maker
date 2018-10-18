@@ -1,5 +1,7 @@
 // @flow
-import React, { forwardRef, isValidElement, Component, type Node } from 'react';
+import React, {
+  forwardRef, isValidElement, Component, type Node,
+} from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import LocaleProvider, { LocaleProviderContext } from './LocaleProvider';
 import { NamespaceContext } from './Namespace';
@@ -45,7 +47,7 @@ class Translate extends Component<Props> {
     description: undefined,
     params: undefined,
     children: undefined,
-    namespace: undefined,
+    $namespace: undefined,
     html: false,
   };
 
@@ -102,9 +104,9 @@ class Translate extends Component<Props> {
 
 export default forwardRef((props, ref) => (
   <LocaleProviderContext.Consumer>
-    {localeProvider => (
+    {({ localeProvider }) => (
       <NamespaceContext.Consumer>
-        {namespace => (
+        {({ namespace }) => (
           <Translate
             {...props}
             $localeProvider={localeProvider}

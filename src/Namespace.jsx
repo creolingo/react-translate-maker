@@ -1,7 +1,9 @@
 // @flow
-import React, { forwardRef, createContext, Component, type Node } from 'react';
+import React, {
+  forwardRef, createContext, Component, type Node,
+} from 'react';
 
-export const NamespaceContext = createContext();
+export const NamespaceContext = createContext({});
 
 type Props = {
   path?: string,
@@ -11,6 +13,12 @@ type Props = {
 };
 
 class Namespace extends Component<Props> {
+  static defaultProps = {
+    path: undefined,
+    compose: undefined,
+    namespace: undefined,
+  };
+
   getPath() {
     const { path, compose, namespace } = this.props;
     if (!compose || !path) {
@@ -31,7 +39,7 @@ class Namespace extends Component<Props> {
     const { children } = this.props;
 
     return (
-      <NamespaceContext.Provider value={this}>
+      <NamespaceContext.Provider value={{ namespace: this }}>
         {children}
       </NamespaceContext.Provider>
     );
@@ -40,7 +48,7 @@ class Namespace extends Component<Props> {
 
 export default forwardRef((props, ref) => (
   <NamespaceContext.Consumer>
-    {namespace => (
+    {({ namespace }) => (
       <Namespace
         {...props}
         namespace={namespace}

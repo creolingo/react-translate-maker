@@ -2,7 +2,7 @@
 import React, { Component, type Node, createContext } from 'react';
 import Translate from 'translate-maker';
 
-export const LocaleProviderContext = createContext();
+export const LocaleProviderContext = createContext({});
 
 type Props = {
   children: Node,
@@ -29,6 +29,21 @@ type State = {
 export default class LocaleProvider extends Component<Props, State> {
   static defaultProps = {
     controlled: true,
+    /*
+    locale: undefined,
+    namespace: undefined,
+    locales: undefined,
+    cache: undefined,
+    data: undefined,
+    adapter: undefined,
+    dotNotation: undefined,
+    mode: undefined,
+    references: undefined,
+    variables: undefined,
+    combinations: undefined,
+    filters: undefined,
+    translate: undefined,
+    */
   };
 
   constructor(props) {
@@ -82,22 +97,13 @@ export default class LocaleProvider extends Component<Props, State> {
   }
 
   async setLocale(locale) {
-    if (this.props.controlled) {
+    const { controlled } = this.props;
+    if (controlled) {
       throw new Error('LocaleProvider is set as controlled component. If you want to use setLocale please set controlled = false');
     }
 
     const { translate } = this.state;
-    return translate.setLocale(locale);
-  }
-
-  get(path, attrs, defaultValue) {
-    const { translate } = this.state;
-    return translate.get(path, attrs, defaultValue);
-  }
-
-  set(path, value) {
-    const { translate } = this.state;
-    return translate.set(path, value);
+    await translate.setLocale(locale);
   }
 
   t = (path, attrs, defaultValue) => this.get(path, attrs, defaultValue);
@@ -110,13 +116,23 @@ export default class LocaleProvider extends Component<Props, State> {
     this.forceUpdate();
   }
 
+  get(path, attrs, defaultValue) {
+    const { translate } = this.state;
+    return translate.get(path, attrs, defaultValue);
+  }
+
+  set(path, value) {
+    const { translate } = this.state;
+    return translate.set(path, value);
+  }
+
   render() {
     const { children } = this.props;
 
     return (
-      <LocaleProviderContext value={this}>
+      <LocaleProviderContext.Provider value={{ localeProvider: this }}>
         {children}
-      </LocaleProviderContext>
+      </LocaleProviderContext.Provider>
     );
   }
 }

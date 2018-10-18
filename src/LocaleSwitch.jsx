@@ -5,19 +5,24 @@ import { LocaleProviderContext } from './LocaleProvider';
 type Props = {
   localeProvider: Node,
   onError?: Function,
+  onChange?: Function,
   children: Function,
 };
 
 class LocaleSwitch extends Component<Props> {
   static defaultProps = {
     onError: undefined,
+    onChange: undefined,
   };
 
   handleChange = async (locale: string) => {
-    const { onError, localeProvider } = this.props;
+    const { onError, onChange, localeProvider } = this.props;
 
     try {
       await localeProvider.setLocale(locale);
+      if (onChange) {
+        onChange(locale);
+      }
     } catch (e) {
       if (onError) {
         onError(e);
@@ -30,14 +35,14 @@ class LocaleSwitch extends Component<Props> {
 
     return children({
       locale: localeProvider.getLocale(),
-      onChange: this.handleChange,
+      changeLocale: this.handleChange,
     });
   }
 }
 
 export default forwardRef((props, ref) => (
   <LocaleProviderContext.Consumer>
-    {localeProvider => (
+    {({ localeProvider }) => (
       <LocaleSwitch
         {...props}
         localeProvider={localeProvider}

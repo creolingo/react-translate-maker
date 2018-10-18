@@ -44,9 +44,9 @@ class ProvideTranslate extends Component<Props> {
 
 export default forwardRef((props, ref) => (
   <LocaleProviderContext.Consumer>
-    {localeProvider => (
+    {({ localeProvider }) => (
       <NamespaceContext.Consumer>
-        {namespace => (
+        {({ namespace }) => (
           <ProvideTranslate
             {...props}
             localeProvider={localeProvider}
