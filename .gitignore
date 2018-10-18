@@ -1,6 +1,7 @@
 dist
 lib
 node_modules
+module
 coverage
 yarn.lock
 package-lock.json
