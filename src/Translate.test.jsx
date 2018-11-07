@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import TranslateMaker from 'translate-maker';
-import { mount } from 'enzyme'
-import Translate, {
+import { mount } from 'enzyme';
+import {
+  Translate,
   ProvideTranslate,
   LocaleProvider,
   Namespace,

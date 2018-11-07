@@ -2,7 +2,9 @@
 import React, { Component, type Node, createContext } from 'react';
 import Translate from 'translate-maker';
 
-export const LocaleProviderContext = createContext({});
+const { Provider, Consumer } = createContext({});
+
+export const LocaleProviderConsumer = Consumer;
 
 type Props = {
   children: Node,
@@ -130,9 +132,9 @@ export default class LocaleProvider extends Component<Props, State> {
     const { children } = this.props;
 
     return (
-      <LocaleProviderContext.Provider value={{ localeProvider: this }}>
+      <Provider value={{ localeProvider: this }}>
         {children}
-      </LocaleProviderContext.Provider>
+      </Provider>
     );
   }
 }

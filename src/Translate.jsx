@@ -3,8 +3,8 @@ import React, {
   forwardRef, isValidElement, Component, type Node,
 } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
-import LocaleProvider, { LocaleProviderContext } from './LocaleProvider';
-import { NamespaceContext } from './Namespace';
+import LocaleProvider, { LocaleProviderConsumer } from './LocaleProvider';
+import { NamespaceConsumer } from './Namespace';
 
 type Props = {
   path: string,
@@ -103,9 +103,9 @@ class Translate extends Component<Props> {
 }
 
 export default forwardRef((props, ref) => (
-  <LocaleProviderContext.Consumer>
+  <LocaleProviderConsumer>
     {({ localeProvider }) => (
-      <NamespaceContext.Consumer>
+      <NamespaceConsumer>
         {({ namespace }) => (
           <Translate
             {...props}
@@ -114,7 +114,7 @@ export default forwardRef((props, ref) => (
             ref={ref}
           />
         )}
-      </NamespaceContext.Consumer>
+      </NamespaceConsumer>
     )}
-  </LocaleProviderContext.Consumer>
+  </LocaleProviderConsumer>
 ));

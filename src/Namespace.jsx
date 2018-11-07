@@ -3,7 +3,9 @@ import React, {
   forwardRef, createContext, Component, type Node,
 } from 'react';
 
-export const NamespaceContext = createContext({});
+const { Provider, Consumer } = createContext({});
+
+export const NamespaceConsumer = Consumer;
 
 type Props = {
   path?: string,
@@ -39,15 +41,15 @@ class Namespace extends Component<Props> {
     const { children } = this.props;
 
     return (
-      <NamespaceContext.Provider value={{ namespace: this }}>
+      <Provider value={{ namespace: this }}>
         {children}
-      </NamespaceContext.Provider>
+      </Provider>
     );
   }
 }
 
 export default forwardRef((props, ref) => (
-  <NamespaceContext.Consumer>
+  <Consumer>
     {({ namespace }) => (
       <Namespace
         {...props}
@@ -55,5 +57,5 @@ export default forwardRef((props, ref) => (
         ref={ref}
       />
     )}
-  </NamespaceContext.Consumer>
+  </Consumer>
 ));

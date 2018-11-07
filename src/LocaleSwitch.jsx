@@ -1,6 +1,6 @@
 // @flow
 import React, { forwardRef, Component, type Node } from 'react';
-import { LocaleProviderContext } from './LocaleProvider';
+import { LocaleProviderConsumer } from './LocaleProvider';
 
 type Props = {
   localeProvider: Node,
@@ -41,7 +41,7 @@ class LocaleSwitch extends Component<Props> {
 }
 
 export default forwardRef((props, ref) => (
-  <LocaleProviderContext.Consumer>
+  <LocaleProviderConsumer>
     {({ localeProvider }) => (
       <LocaleSwitch
         {...props}
@@ -49,5 +49,5 @@ export default forwardRef((props, ref) => (
         ref={ref}
       />
     )}
-  </LocaleProviderContext.Consumer>
+  </LocaleProviderConsumer>
 ));
