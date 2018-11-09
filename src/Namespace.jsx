@@ -1,11 +1,6 @@
 // @flow
-import React, {
-  forwardRef, createContext, Component, type Node,
-} from 'react';
-
-const { Provider, Consumer } = createContext({});
-
-export const NamespaceConsumer = Consumer;
+import React, { forwardRef, Component, type Node } from 'react';
+import NamespaceContext from './NamespaceContext';
 
 type Props = {
   path?: string,
@@ -41,15 +36,15 @@ class Namespace extends Component<Props> {
     const { children } = this.props;
 
     return (
-      <Provider value={{ namespace: this }}>
+      <NamespaceContext.Provider value={{ namespace: this }}>
         {children}
-      </Provider>
+      </NamespaceContext.Provider>
     );
   }
 }
 
 export default forwardRef((props, ref) => (
-  <Consumer>
+  <NamespaceContext.Consumer>
     {({ namespace }) => (
       <Namespace
         {...props}
@@ -57,5 +52,5 @@ export default forwardRef((props, ref) => (
         ref={ref}
       />
     )}
-  </Consumer>
+  </NamespaceContext.Consumer>
 ));

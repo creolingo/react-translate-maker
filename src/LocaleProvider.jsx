@@ -1,10 +1,7 @@
 // @flow
-import React, { Component, type Node, createContext } from 'react';
+import React, { Component, type Node } from 'react';
 import Translate from 'translate-maker';
-
-const { Provider, Consumer } = createContext({});
-
-export const LocaleProviderConsumer = Consumer;
+import LocaleProviderContext from './LocaleProviderContext';
 
 type Props = {
   children: Node,
@@ -132,9 +129,9 @@ export default class LocaleProvider extends Component<Props, State> {
     const { children } = this.props;
 
     return (
-      <Provider value={{ localeProvider: this }}>
+      <LocaleProviderContext.Provider value={{ localeProvider: this }}>
         {children}
-      </Provider>
+      </LocaleProviderContext.Provider>
     );
   }
 }

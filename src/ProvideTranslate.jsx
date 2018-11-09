@@ -1,7 +1,7 @@
 // @flow
 import React, { forwardRef, Component, type Node } from 'react';
-import { LocaleProviderConsumer } from './LocaleProvider';
-import { NamespaceConsumer } from './Namespace';
+import LocaleProviderContext from './LocaleProviderContext';
+import NamespaceContext from './NamespaceContext';
 
 type Props = {
   localeProvider: Node,
@@ -43,9 +43,9 @@ class ProvideTranslate extends Component<Props> {
 }
 
 export default forwardRef((props, ref) => (
-  <LocaleProviderConsumer>
+  <LocaleProviderContext.Consumer>
     {({ localeProvider }) => (
-      <NamespaceConsumer>
+      <NamespaceContext.Consumer>
         {({ namespace }) => (
           <ProvideTranslate
             {...props}
@@ -54,7 +54,7 @@ export default forwardRef((props, ref) => (
             ref={ref}
           />
         )}
-      </NamespaceConsumer>
+      </NamespaceContext.Consumer>
     )}
-  </LocaleProviderConsumer>
+  </LocaleProviderContext.Consumer>
 ));
