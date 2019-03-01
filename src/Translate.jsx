@@ -83,7 +83,7 @@ class Translate extends Component<Props> {
       : defaultValue;
 
     const updatedParams = prepareParams(params || rest, $localeProvider);
-    const text = $localeProvider.get(this.getPath(), updatedParams, updatedDefaultValue);
+    const text = $localeProvider.get(this.getPath(), updatedParams, updatedDefaultValue) || '';
 
     if (typeof children === 'function') {
       return children(text);
