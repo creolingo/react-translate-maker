@@ -2,5 +2,8 @@
   "extends": "airbnb",
   "parser": "babel-eslint",
   "rules": {
+  },
+  "env": {
+    "jest": true
   }
 }

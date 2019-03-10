@@ -21,33 +21,33 @@ describe('Translate', () => {
 
     await translate.setLocale('sk_SK');
 
-    const wrapper = mount(
+    const wrapper = mount((
       <LocaleProvider locale="sk_SK" translate={translate}>
         <Translate path="test" />
       </LocaleProvider>
-    );
+    ));
 
     expect(wrapper.text()).toBe('Test response');
   });
 
   it('should be able to create simple instance with default value', () => {
-    const wrapper = mount(
+    const wrapper = mount((
       <LocaleProvider locale="sk_SK">
         <Translate path="test" defaultValue="Default value" />
       </LocaleProvider>
-    );
+    ));
 
     expect(wrapper.text()).toBe('Default value');
   });
 
   it('should be able to create simple instance with default value as children', () => {
-    const wrapper = mount(
+    const wrapper = mount((
       <LocaleProvider locale="sk_SK">
         <Translate path="test">
           Default value
         </Translate>
       </LocaleProvider>
-    );
+    ));
 
     expect(wrapper.text()).toBe('Default value');
   });
@@ -63,11 +63,11 @@ describe('Translate', () => {
 
     await translate.setLocale('sk_SK');
 
-    const wrapper = mount(
+    const wrapper = mount((
       <LocaleProvider locale="sk_SK" translate={translate}>
         <h1><Translate path="test" defaultValue="Default value" /></h1>
       </LocaleProvider>
-    );
+    ));
 
     expect(wrapper.html()).toBe('<h1>Test response</h1>');
   });
@@ -83,11 +83,11 @@ describe('Translate', () => {
 
     await translate.setLocale('sk_SK');
 
-    const wrapper = mount(
+    const wrapper = mount((
       <LocaleProvider locale="sk_SK" translate={translate}>
         <Translate path="hello" name="Zlatko" />
       </LocaleProvider>
-    );
+    ));
 
     expect(wrapper.text()).toBe('Hello Zlatko');
   });
@@ -99,7 +99,7 @@ describe('Translate', () => {
           followers: `{$name} has {$followers, plural,
             =0 {no followers}
             =1 {# follower}
-               {# followers}
+              {# followers}
           }`,
         },
       },
@@ -107,11 +107,11 @@ describe('Translate', () => {
 
     await translate.setLocale('sk_SK');
 
-    const wrapper = mount(
+    const wrapper = mount((
       <LocaleProvider locale="sk_SK" translate={translate}>
         <Translate path="followers" name="Zlatko" followers={0} />
       </LocaleProvider>
-    );
+    ));
 
     expect(wrapper.text()).toBe('Zlatko has no followers');
   });
@@ -131,11 +131,11 @@ describe('Translate', () => {
       name: 'Zlatko',
     };
 
-    const wrapper = mount(
+    const wrapper = mount((
       <LocaleProvider locale="sk_SK" translate={translate}>
         <Translate path="hello" params={user} />
       </LocaleProvider>
-    );
+    ));
 
     expect(wrapper.text()).toBe('Hello Zlatko');
   });
@@ -151,11 +151,11 @@ describe('Translate', () => {
 
     await translate.setLocale('sk_SK');
 
-    const wrapper = mount(
+    const wrapper = mount((
       <LocaleProvider locale="sk_SK" translate={translate}>
         <Translate path="hello" name="Zlatko" html />
       </LocaleProvider>
-    );
+    ));
 
     expect(wrapper.html()).toBe('<span>Welcome back <b>Zlatko</b>. How is it going?</span>');
   });
@@ -168,17 +168,17 @@ describe('Translate', () => {
         },
       },
       filters: {
-        star: (value) => '*** ' + value + ' ***',
+        star: value => `*** ${value} ***`,
       },
     });
 
     await translate.setLocale('sk_SK');
 
-    const wrapper = mount(
+    const wrapper = mount((
       <LocaleProvider locale="sk_SK" translate={translate}>
         <Translate path="hello" name="Zlatko" />
       </LocaleProvider>
-    );
+    ));
 
     expect(wrapper.text()).toBe('Hello *** Zlatko ***');
   });
@@ -196,13 +196,13 @@ describe('Translate', () => {
 
     await translate.setLocale('sk_SK');
 
-    const wrapper = mount(
+    const wrapper = mount((
       <LocaleProvider locale="sk_SK" translate={translate}>
         <Namespace path="namespace">
           <Translate path="test" />
         </Namespace>
       </LocaleProvider>
-    );
+    ));
 
     expect(wrapper.text()).toBe('Test response');
   });
@@ -253,7 +253,7 @@ describe('Translate', () => {
 
     await translate.setLocale('sk_SK');
 
-    const wrapper = mount(
+    const wrapper = mount((
       <LocaleProvider locale="sk_SK" translate={translate}>
         <Namespace path="namespace1">
           <Namespace path="namespace2" compose>
@@ -261,7 +261,7 @@ describe('Translate', () => {
           </Namespace>
         </Namespace>
       </LocaleProvider>
-    );
+    ));
 
     expect(wrapper.text()).toBe('Test response');
   });
@@ -279,7 +279,7 @@ describe('Translate', () => {
 
     await translate.setLocale('sk_SK');
 
-    const wrapper = mount(
+    const wrapper = mount((
       <LocaleProvider locale="sk_SK" translate={translate}>
         <Namespace path="namespace1">
           <Namespace path="namespace">
@@ -287,7 +287,7 @@ describe('Translate', () => {
           </Namespace>
         </Namespace>
       </LocaleProvider>
-    );
+    ));
 
     expect(wrapper.text()).toBe('Test response');
   });
@@ -310,11 +310,11 @@ describe('Translate', () => {
 
     let changeLocale;
 
-    const wrapper = mount(
+    const wrapper = mount((
       <LocaleProvider data={data} locale="sk_SK" translate={translate} controlled={false}>
         <div>
           <span><Translate path="test" /></span>
-          <LocaleSwitch 
+          <LocaleSwitch
             onError={(err) => {
               throw err;
             }}
@@ -326,14 +326,13 @@ describe('Translate', () => {
           </LocaleSwitch>
         </div>
       </LocaleProvider>
-    );
+    ));
 
     expect(wrapper.text()).toBe('Testovacia odpoved');
 
     await changeLocale('en_US');
 
     expect(wrapper.text()).toBe('Test response');
-    
   });
 
   it('should be able to use LocaleSwitch as uncontrolled component', async () => {
