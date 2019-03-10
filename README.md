@@ -54,7 +54,7 @@ Star this project on [GitHub][github-url].
 
 ```js
 import React from 'react';
-import Translate { LocaleProvider, TranslateMaker } from 'react-translate-maker';
+import Translate, { LocaleProvider, TranslateMaker } from 'react-translate-maker';
 
 const translate = new TranslateMaker({
   data: {
