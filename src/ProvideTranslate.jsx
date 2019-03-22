@@ -1,60 +1,29 @@
 // @flow
-import React, { forwardRef, Component, type Node } from 'react';
-import LocaleProviderContext from './LocaleProviderContext';
+import { useContext, useCallback } from 'react';
+import TranslateContext from './TranslateContext';
 import NamespaceContext from './NamespaceContext';
 
 type Props = {
-  localeProvider: Node,
-  namespace: Node,
   children: Function,
   ignoreNamespace?: boolean,
 };
 
-class ProvideTranslate extends Component<Props> {
-  static defaultProps = {
-    ignoreNamespace: false,
-  };
+function ProvideTranslate(props: Props) {
+  const { children, ignoreNamespace } = props;
+  const namespace = useContext(NamespaceContext);
+  const translate = useContext(TranslateContext);
 
-  getPath(path: string): string {
-    const { namespace, ignoreNamespace } = this.props;
-    if (!namespace || ignoreNamespace) {
-      return path;
-    }
+  const t = useCallback((path: string, ...args) => {
+    const finallPath = namespace && !ignoreNamespace
+      ? `${namespace}.${path}`
+      : path;
 
-    const parentPath = namespace.getPath();
-    if (!parentPath) {
-      return path;
-    }
+    return translate.get(finallPath, ...args);
+  }, [translate, namespace, ignoreNamespace]);
 
-    return `${parentPath}.${path}`;
-  }
-
-  translate = (path: string, ...args): string => {
-    const { localeProvider } = this.props;
-
-    return localeProvider.get(this.getPath(path), ...args);
-  }
-
-  render() {
-    const { children } = this.props;
-
-    return children(this.translate);
-  }
+  return children(t);
 }
 
-export default forwardRef((props, ref) => (
-  <LocaleProviderContext.Consumer>
-    {({ localeProvider }) => (
-      <NamespaceContext.Consumer>
-        {({ namespace }) => (
-          <ProvideTranslate
-            {...props}
-            localeProvider={localeProvider}
-            namespace={namespace}
-            ref={ref}
-          />
-        )}
-      </NamespaceContext.Consumer>
-    )}
-  </LocaleProviderContext.Consumer>
-));
+ProvideTranslate.defaultProps = {
+  ignoreNamespace: false,
+};

@@ -324,7 +324,7 @@ React.render(
     <Namespace path="header.navigation">
       <h1><Translate path="title" /></h1>
       <nav>
-        <Namespace path="button" compose={true}>
+        <Namespace path="button" compose>
         <ul>
           <li><Translate path="login" /></li>
           <li><Translate path="signup" /></li>

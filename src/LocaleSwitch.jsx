@@ -1,25 +1,20 @@
 // @flow
-import React, { forwardRef, Component, type Node } from 'react';
-import LocaleProviderContext from './LocaleProviderContext';
+import { useContext, useCallback } from 'react';
+import TranslateContext from './TranslateContext';
 
 type Props = {
-  localeProvider: Node,
   onError?: Function,
   onChange?: Function,
   children: Function,
 };
 
-class LocaleSwitch extends Component<Props> {
-  static defaultProps = {
-    onError: undefined,
-    onChange: undefined,
-  };
+function LocaleSwitch(props: Props) {
+  const { onError, onChange, children } = props;
+  const translate = useContext(TranslateContext);
 
-  handleChange = async (locale: string) => {
-    const { onError, onChange, localeProvider } = this.props;
-
+  const handleChange = useCallback(async (locale: string) => {
     try {
-      await localeProvider.setLocale(locale);
+      await translate.setLocale(locale);
       if (onChange) {
         onChange(locale);
       }
@@ -28,26 +23,15 @@ class LocaleSwitch extends Component<Props> {
         onError(e);
       }
     }
-  }
+  }, []);
 
-  render() {
-    const { children, localeProvider } = this.props;
-
-    return children({
-      locale: localeProvider.getLocale(),
-      changeLocale: this.handleChange,
-    });
-  }
+  return children({
+    locale: translate.getLocale(),
+    changeLocale: handleChange,
+  });
 }
 
-export default forwardRef((props, ref) => (
-  <LocaleProviderContext.Consumer>
-    {({ localeProvider }) => (
-      <LocaleSwitch
-        {...props}
-        localeProvider={localeProvider}
-        ref={ref}
-      />
-    )}
-  </LocaleProviderContext.Consumer>
-));
+LocaleSwitch.defaultProps = {
+  onError: undefined,
+  onChange: undefined,
+};

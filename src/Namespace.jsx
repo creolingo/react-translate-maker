@@ -1,56 +1,36 @@
 // @flow
-import React, { forwardRef, Component, type Node } from 'react';
+import React, { useContext, type Node } from 'react';
 import NamespaceContext from './NamespaceContext';
 
 type Props = {
   path?: string,
   compose?: boolean,
   children: Node,
-  namespace?: Node,
 };
 
-class Namespace extends Component<Props> {
-  static defaultProps = {
-    path: undefined,
-    compose: undefined,
-    namespace: undefined,
-  };
-
-  getPath() {
-    const { path, compose, namespace } = this.props;
-    if (!compose || !path) {
-      return path;
-    }
-
-    if (namespace) {
-      const parentPath = namespace.getPath();
-      if (parentPath) {
-        return `${parentPath}.${path}`;
-      }
-    }
-
+function computePath(path, compose, namespace) {
+  if (!compose) {
     return path;
   }
 
-  render() {
-    const { children } = this.props;
-
-    return (
-      <NamespaceContext.Provider value={{ namespace: this }}>
-        {children}
-      </NamespaceContext.Provider>
-    );
-  }
+  return namespace && compose
+    ? `${namespace}.${path}`
+    : path;
 }
 
-export default forwardRef((props, ref) => (
-  <NamespaceContext.Consumer>
-    {({ namespace }) => (
-      <Namespace
-        {...props}
-        namespace={namespace}
-        ref={ref}
-      />
-    )}
-  </NamespaceContext.Consumer>
-));
+export default function Namespace(props: Props) {
+  const { path, compose, children } = props;
+  const namespace = useContext(NamespaceContext);
+  const currentPath = computePath(path, compose, namespace);
+
+  return (
+    <NamespaceContext.Provider value={currentPath}>
+      {children}
+    </NamespaceContext.Provider>
+  );
+}
+
+Namespace.defaultProps = {
+  path: undefined,
+  compose: false,
+};

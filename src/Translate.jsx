@@ -1,11 +1,9 @@
 // @flow
-import React, {
-  forwardRef, isValidElement, Component, type Node,
-} from 'react';
+import React, { useContext, isValidElement, type Node } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import LocaleProvider from './LocaleProvider';
-import LocaleProviderContext from './LocaleProviderContext';
 import NamespaceContext from './NamespaceContext';
+import TranslateContext from './TranslateContext';
 
 type Props = {
   path: string,
@@ -17,7 +15,7 @@ type Props = {
   html?: boolean,
 };
 
-export function prepareParams(params: Object, localeProvider: Node) {
+function prepareParams(params: Object, translate: Object) {
   const newParams = {};
   let changed = false;
 
@@ -29,93 +27,64 @@ export function prepareParams(params: Object, localeProvider: Node) {
     } else {
       changed = true;
 
-      const { children, locale, ...rest } = localeProvider.props;
-
       newParams[key] = renderToStaticMarkup((
-        <LocaleProvider {...rest}>
+        <LocaleProvider translate={translate}>
           {value}
         </LocaleProvider>
       ));
     }
   });
 
-  return changed ? newParams : params;
+  return changed
+    ? newParams
+    : params;
 }
 
-class Translate extends Component<Props> {
-  static defaultProps = {
-    defaultValue: undefined,
-    description: undefined,
-    params: undefined,
-    children: undefined,
-    $namespace: undefined,
-    html: false,
-  };
+export default function Translate(props: Props) {
+  const {
+    path,
+    description,
+    defaultValue,
+    params,
+    children,
+    html,
+    ...rest
+  } = props;
 
-  getPath() {
-    const { path, $namespace } = this.props;
-    if (!$namespace) {
-      return path;
-    }
+  const namespace = useContext(NamespaceContext);
+  const translate = useContext(TranslateContext);
+  const finallPath = namespace
+    ? `${namespace}.${path}`
+    : path;
 
-    const parentPath = $namespace.getPath();
-    if (!parentPath) {
-      return path;
-    }
+  const updatedDefaultValue = !defaultValue && typeof children === 'string'
+    ? children
+    : defaultValue;
 
-    return `${parentPath}.${path}`;
+  const updatedParams = prepareParams(params || rest, translate);
+  const text = translate.get(finallPath, updatedParams, updatedDefaultValue) || '';
+
+  if (typeof children === 'function') {
+    return children(text);
   }
 
-  render() {
-    const {
-      path,
-      $namespace,
-      $localeProvider,
-      defaultValue,
-      params,
-      children,
-      html,
-      ...rest
-    } = this.props;
-
-    const updatedDefaultValue = !defaultValue && typeof children !== 'function'
-      ? children
-      : defaultValue;
-
-    const updatedParams = prepareParams(params || rest, $localeProvider);
-    const text = $localeProvider.get(this.getPath(), updatedParams, updatedDefaultValue) || '';
-
-    if (typeof children === 'function') {
-      return children(text);
-    }
-
-    if (html) {
-      return (
-        <span
-          dangerouslySetInnerHTML={{
-            __html: text,
-          }}
-        />
-      );
-    }
-
-    return text;
+  if (html) {
+    return (
+      <span
+        dangerouslySetInnerHTML={{
+          __html: text,
+        }}
+      />
+    );
   }
+
+  return text;
 }
 
-export default forwardRef((props, ref) => (
-  <LocaleProviderContext.Consumer>
-    {({ localeProvider }) => (
-      <NamespaceContext.Consumer>
-        {({ namespace }) => (
-          <Translate
-            {...props}
-            $localeProvider={localeProvider}
-            $namespace={namespace}
-            ref={ref}
-          />
-        )}
-      </NamespaceContext.Consumer>
-    )}
-  </LocaleProviderContext.Consumer>
-));
+Translate.defaultProps = {
+  defaultValue: undefined,
+  description: undefined,
+  params: undefined,
+  children: undefined,
+  html: false,
+};
