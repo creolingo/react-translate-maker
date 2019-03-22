@@ -33,15 +33,23 @@ export default function LocaleProvider(props: Props) {
   } = props;
 
   const [translate] = useState(defaultTranslate || new Translate(rest));
-  const rerender = useUpdate();
+  const [context, setContext] = useState({
+    translate,
+  });
 
   useEffect(() => {
-    translate.on('locale', rerender);
-    translate.on('changed', rerender);
+    function updateContext() {
+      setContext({
+        translate,
+      });
+    }
+
+    translate.on('locale', updateContext);
+    translate.on('changed', updateContext);
 
     return () => {
-      translate.removeListener('locale', rerender);
-      translate.removeListener('changed', rerender);
+      translate.removeListener('locale', updateContext);
+      translate.removeListener('changed', updateContext);
     };
   }, [translate]);
 
@@ -52,7 +60,7 @@ export default function LocaleProvider(props: Props) {
   }, [controlled, locale, namespace]);
 
   return (
-    <TranslateContext.Provider value={translate}>
+    <TranslateContext.Provider value={context}>
       {children}
     </TranslateContext.Provider>
   );

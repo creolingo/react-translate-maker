@@ -52,7 +52,7 @@ export default function Translate(props: Props) {
   } = props;
 
   const namespace = useContext(NamespaceContext);
-  const translate = useContext(TranslateContext);
+  const { translate } = useContext(TranslateContext);
   const finallPath = namespace
     ? `${namespace}.${path}`
     : path;

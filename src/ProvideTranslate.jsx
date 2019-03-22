@@ -11,7 +11,7 @@ type Props = {
 function ProvideTranslate(props: Props) {
   const { children, ignoreNamespace } = props;
   const namespace = useContext(NamespaceContext);
-  const translate = useContext(TranslateContext);
+  const { translate } = useContext(TranslateContext);
 
   const t = useCallback((path: string, ...args) => {
     const finallPath = namespace && !ignoreNamespace

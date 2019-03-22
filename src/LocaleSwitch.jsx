@@ -10,7 +10,7 @@ type Props = {
 
 function LocaleSwitch(props: Props) {
   const { onError, onChange, children } = props;
-  const translate = useContext(TranslateContext);
+  const { translate } = useContext(TranslateContext);
 
   const handleChange = useCallback(async (locale: string) => {
     try {
