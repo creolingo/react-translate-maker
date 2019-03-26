@@ -2,7 +2,6 @@
 import React, { useEffect, useState, type Node } from 'react';
 import Translate from 'translate-maker';
 import TranslateContext from './TranslateContext';
-import useUpdate from './useUpdate';
 
 type Props = {
   children: Node,

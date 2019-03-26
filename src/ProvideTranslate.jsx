@@ -8,7 +8,7 @@ type Props = {
   ignoreNamespace?: boolean,
 };
 
-function ProvideTranslate(props: Props) {
+export default function ProvideTranslate(props: Props) {
   const { children, ignoreNamespace } = props;
   const namespace = useContext(NamespaceContext);
   const { translate } = useContext(TranslateContext);

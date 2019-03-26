@@ -8,7 +8,7 @@ type Props = {
   children: Function,
 };
 
-function LocaleSwitch(props: Props) {
+export default function LocaleSwitch(props: Props) {
   const { onError, onChange, children } = props;
   const { translate } = useContext(TranslateContext);
 
