@@ -347,7 +347,7 @@ import { LocaleProvider, Translate } from 'react-translate-maker';
 const currentLocale = 'en_US';
 const data = {
   en_US: {
-    welcome: 'Welcome back <b>{$user.name}</b>. How is it going?',
+    welcome: 'Welcome back {$user}. How is it going?',
   },
 };
 
@@ -357,7 +357,11 @@ const user = {
 
 React.render(
   <LocaleProvider adapter={data} locale={currentLocale}>
-    <Translate path="welcome" user={user} html />
+    <Translate 
+      path="welcome" 
+      params={{ 
+        user: <b>{user.name}</b>
+      }} />
   </LocaleProvider>
 );
 ```

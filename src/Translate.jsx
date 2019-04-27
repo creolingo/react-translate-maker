@@ -1,7 +1,5 @@
 // @flow
-import React, { useContext, isValidElement, type Node } from 'react';
-import { renderToStaticMarkup } from 'react-dom/server';
-import LocaleProvider from './LocaleProvider';
+import { cloneElement, useContext, isValidElement, type Node } from 'react';
 import NamespaceContext from './NamespaceContext';
 import TranslateContext from './TranslateContext';
 
@@ -12,33 +10,7 @@ type Props = {
   defaultValue?: string,
   params?: Object,
   children?: Function | string,
-  html?: boolean,
 };
-
-function prepareParams(params: Object, translate: Object) {
-  const newParams = {};
-  let changed = false;
-
-  Object.keys(params).forEach((key) => {
-    const value = params[key];
-    const isReactElement = isValidElement(value);
-    if (!isReactElement) {
-      newParams[key] = value;
-    } else {
-      changed = true;
-
-      newParams[key] = renderToStaticMarkup((
-        <LocaleProvider translate={translate}>
-          {value}
-        </LocaleProvider>
-      ));
-    }
-  });
-
-  return changed
-    ? newParams
-    : params;
-}
 
 export default function Translate(props: Props) {
   const {
@@ -47,7 +19,6 @@ export default function Translate(props: Props) {
     defaultValue,
     params,
     children,
-    html,
     ...rest
   } = props;
 
@@ -61,24 +32,26 @@ export default function Translate(props: Props) {
     ? children
     : defaultValue;
 
-  const updatedParams = prepareParams(params || rest, translate);
-  const text = translate.get(finallPath, updatedParams, updatedDefaultValue) || '';
+  const updatedParams = params || rest;
+  const items = translate.get(finallPath, updatedParams, updatedDefaultValue, true);
 
-  if (typeof children === 'function') {
-    return children(text);
+  if (!items || !items.length) {
+    return '';
+  } else if (items.length === 1) {
+    return items[0];
   }
 
-  if (html) {
-    return (
-      <span
-        dangerouslySetInnerHTML={{
-          __html: text,
-        }}
-      />
-    );
-  }
+  // add keys for more items
+  items.map((item, index) => {
+    const isReactElement = isValidElement(item);
+    if (isReactElement) {
+      return cloneElement(item, {
+        key: index,
+      });
+    }
 
-  return text;
+    return item;
+  });
 }
 
 Translate.defaultProps = {
@@ -86,5 +59,4 @@ Translate.defaultProps = {
   description: undefined,
   params: undefined,
   children: undefined,
-  html: false,
 };
