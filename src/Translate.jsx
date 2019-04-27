@@ -38,7 +38,7 @@ export default function Translate(props: Props) {
   if (!items || !items.length) {
     return '';
   } else if (items.length === 1) {
-    return items[0];
+    return items[0] || '';
   }
 
   // add keys for more items
