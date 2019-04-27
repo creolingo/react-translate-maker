@@ -38,11 +38,12 @@ export default function Translate(props: Props) {
   if (!items || !items.length) {
     return '';
   } else if (items.length === 1) {
-    return items[0] || '';
+    const item = items[0];
+    return item !== undefined ? item : '';
   }
 
   // add keys for more items
-  items.map((item, index) => {
+  return items.map((item, index) => {
     const isReactElement = isValidElement(item);
     if (isReactElement) {
       return cloneElement(item, {
