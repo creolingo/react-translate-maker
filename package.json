@@ -1,6 +1,6 @@
 {
   "name": "react-translate-maker",
-  "version": "3.1.1",
+  "version": "3.1.2",
   "description": "React translation module. Internationalize your great project.",
   "main": "./dist/index.js",
   "browser": "./lib/index.js",
@@ -83,7 +83,7 @@
     "eslint-plugin-react": "^7.12.4",
     "jest": "^24.7.1",
     "jest-cli": "^24.7.1",
-    "translate-maker": "^0.7.3",
+    "translate-maker": "^0.7.4",
     "enzyme": "^3.9.0",
     "enzyme-adapter-react-16": "^1.12.1",
     "react": "^16.8.6",

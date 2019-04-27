@@ -2,6 +2,7 @@
 import React, { useEffect, useState, type Node } from 'react';
 import Translate from 'translate-maker';
 import TranslateContext from './TranslateContext';
+import childrenFilter from './filters/children';
 
 type Props = {
   children: Node,
@@ -35,6 +36,10 @@ export default function LocaleProvider(props: Props) {
   const [context, setContext] = useState({
     translate,
   });
+
+  if (!translate.hasFilter('children')) {
+    translate.addFilter('children', childrenFilter);
+  }
 
   useEffect(() => {
     function updateContext() {
