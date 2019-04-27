@@ -1,5 +1,10 @@
 // @flow
-import { cloneElement, useContext, isValidElement, type Node } from 'react';
+import {
+  cloneElement,
+  useContext,
+  isValidElement,
+  type Node,
+} from 'react';
 import NamespaceContext from './NamespaceContext';
 import TranslateContext from './TranslateContext';
 
@@ -35,24 +40,27 @@ export default function Translate(props: Props) {
   const updatedParams = params || rest;
   const items = translate.get(finallPath, updatedParams, updatedDefaultValue, true);
 
-  if (!items || !items.length) {
-    return '';
-  } else if (items.length === 1) {
+  let result = '';
+  if (items && items.length === 1) {
     const item = items[0];
-    return item !== undefined ? item : '';
+    result = item !== undefined ? item : '';
+  } else if (items && items.length > 1) {
+    // add keys for more items
+    result = items.map((item, index) => {
+      const isReactElement = isValidElement(item);
+      if (isReactElement) {
+        return cloneElement(item, {
+          key: index,
+        });
+      }
+
+      return item;
+    });
   }
 
-  // add keys for more items
-  return items.map((item, index) => {
-    const isReactElement = isValidElement(item);
-    if (isReactElement) {
-      return cloneElement(item, {
-        key: index,
-      });
-    }
-
-    return item;
-  });
+  return typeof children === 'function'
+    ? children(result)
+    : result;
 }
 
 Translate.defaultProps = {
