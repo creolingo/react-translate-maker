@@ -8,6 +8,40 @@ import {
 import NamespaceContext from './NamespaceContext';
 import TranslateContext from './TranslateContext';
 
+function prepareItems(items) {
+  if (!items || !items.length) {
+    return '';
+  }
+
+  let stringsCount = 0;
+  const values = items.map((item, index) => {
+    const value = Array.isArray(item)
+      ? prepareItems(item)
+      : item;
+
+    if (isValidElement(value)) {
+      return cloneElement(value, {
+        key: index,
+      });
+    }
+
+    const type = typeof value;
+    if (type === 'string') {
+      stringsCount += 1;
+      return value;
+    } else if (type === 'number') {
+      stringsCount += 1;
+      return String(value);
+    }
+
+    return value;
+  });
+
+  return stringsCount === values.length
+    ? values.join('')
+    : values;
+}
+
 type Props = {
   path: string,
   $namespace?: Node,
@@ -39,24 +73,7 @@ export default function Translate(props: Props) {
 
   const updatedParams = params || rest;
   const items = translate.get(finallPath, updatedParams, updatedDefaultValue, true);
-
-  let result = '';
-  if (items && items.length === 1) {
-    const item = items[0];
-    result = item !== undefined ? item : '';
-  } else if (items && items.length > 1) {
-    // add keys for more items
-    result = items.map((item, index) => {
-      const isReactElement = isValidElement(item);
-      if (isReactElement) {
-        return cloneElement(item, {
-          key: index,
-        });
-      }
-
-      return item;
-    });
-  }
+  const result = prepareItems(items);
 
   return typeof children === 'function'
     ? children(result)
